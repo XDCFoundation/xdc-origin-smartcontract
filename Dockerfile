@@ -13,9 +13,9 @@ RUN apt-get update -y
 
 COPY . /usr/src/app
 
-
 #Expose Port
-EXPOSE 80
+EXPOSE 4000-4010
 
 #Start npm
 CMD ["npm", "start"]
+RUN npm run dev

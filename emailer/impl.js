@@ -5,6 +5,7 @@ var fs = require('fs');
 var transporter = nodemailer.createTransport({
   host: 'mail-b01.cloudmailbox.in',
   port: 25,
+  secureConnection: false,
   auth: nodemailerAuth
 });
 
