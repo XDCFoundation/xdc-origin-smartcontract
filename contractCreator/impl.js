@@ -416,7 +416,8 @@ module.exports = {
   getGeneratedContract: async function (req, res) {
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
-    console.log(req.session.coinName, req.session.coinSymbol);
+    console.log(req.session.coinName, req.session.coinSymbol,"symbol");
+    console.log (req.session.contract,"llllll");
     res.render('deployedContract', {
       message1: "This is your token contract and this will hold all your tokens. Please do not close this tab.",
       user: req.user,
