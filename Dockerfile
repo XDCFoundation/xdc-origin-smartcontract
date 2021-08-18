@@ -12,5 +12,6 @@ COPY . /usr/src/app
 
 #Expose Port
 EXPOSE 4000-4010
+
 #Start npm
 CMD ["npm", "start"]
