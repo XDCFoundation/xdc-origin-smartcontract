@@ -14,6 +14,7 @@ module.exports = function (app) {
   app.post('/createERC20Contract', isLoggedIn, coinNameExist, hasPackage1,  impl.createERC20Contract);
   app.post('/createERC223Contract', isLoggedIn, coinNameExist, hasPackage1,  impl.createERC223Contract);
   app.post('/createUSDCToken', impl.createUSDCToken);
+  app.post("/createERC223ContractNew", buyPackageSuccess, impl.createERC20Contract);
 
 
 }
@@ -62,20 +63,20 @@ function hasPackage1(req, res, next) {
     result.attemptsCount = result.attemptsCount + 1;
     console.log(result.package1,"result.package1")
     await result.save().then(console.log("attmpt added", result.package1));
-    if (result.package1 > 0) {
-      console.log(result.package1,"result.package12222")
-      return next();
-    }
-     else {
-      console.log(result.package1,"result.package133333")
-      req.flash('package_flash', "You need to buy Package 1 by contributing 50 USD worth of XDCe");
+    // if (result.package1 > 0) {
+    //   console.log(result.package1,"result.package122221111111")
+    //   return next();
+    // }
+    //  else {
+    //   console.log(result.package1,"result.package133333")
+    //   req.flash('package_flash', "You need to buy Package 1 by contributing 50 USD worth of XDCe");
       res.redirect('/generatedContract');
-    }
+    // }
   });
 }
 
-// function buyPackageSuccess(req, res, next) {
-//   console.log("Here1111"); 
-//       res.redirect('/generatedContract');
-// }
+function buyPackageSuccess(req, res, next) {
+  console.log("Here1111"); 
+     return next();
+}
 

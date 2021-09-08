@@ -247,15 +247,16 @@ module.exports = function (passport) {
     {
     clientID : configAuth.facebookAuth.clientID,
     clientSecret : configAuth.facebookAuth.clientSecret,
-    callbackURL : "https://mycontract.co/auth/facebook/callback",
+    callbackURL : configAuth.googleAuth.callbackUR,
     // profileURL: 'https://graph.facebook.com/v2.10/me',
     // authorizationURL: 'https://www.facebook.com/v2.10/dialog/oauth',
     // tokenURL: 'https://graph.facebook.com/v2.10/oauth/access_token',
-    profileFields: ['email','first_name','last_name','gender','link']
+   // profileFields: ['email','first_name','last_name','gender','link']
   },
      
   // facebook will send back the token and profile
   function (token,refreshToken,profile,done) {
+    console.log("hiiiiii")
     // asynchronous
     process.nextTick(function () {
       console.log("inside facebook",profile);
@@ -293,7 +294,7 @@ module.exports = function (passport) {
   passport.use(new GitHubStrategy({
     clientID: configAuth.githubAuth.clientID,
     clientSecret: configAuth.githubAuth.clientSecret,
-    callbackURL: configAuth.githubAuth.callbackURL,
+    callbackURL:configAuth.githubAuth.callbackURL,
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {

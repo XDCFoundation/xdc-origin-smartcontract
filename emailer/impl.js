@@ -4,9 +4,23 @@ var ejs = require("ejs");
 var fs = require('fs');
 var transporter = nodemailer.createTransport({
   host: 'mail-b01.cloudmailbox.in',
-  port: 25,
-  secureConnection: false,
-  auth: nodemailerAuth
+  // // // host:'smtp.office365.com',
+  // port: 25,
+  // // // port:587,
+  // // secureConnection: false,
+  // auth: nodemailerAuth
+  // host: "smtp.gmail.com",
+  // port: 465,
+  // service: 'gmail',
+  host: 'smtp.gmail.com',
+  // // port: 587,
+  // // secure: true, // upgrade later with STARTTLS
+  port: 587,
+  //   secure: false, 
+  auth: {
+    user: "srevathi036@gmail.com",
+    pass: "Revathi2@8121",
+  },
 });
 
 module.exports = {
@@ -50,7 +64,8 @@ module.exports = {
     }, (err, data) => {
       console.log(err,"errr");
       var mailOptions = {
-        from: "emailverification@mycontract.co",
+        // from: "emailverification@mycontract.co",
+        from: "srevathi036@gmail.com",
         to: recipientmail,
         subject: "Email Verification",
         html: data

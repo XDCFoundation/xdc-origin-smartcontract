@@ -65,6 +65,7 @@ module.exports = {
   createERC20Contract: async (req, res) => {
     console.log("exist 311111");
     // console.log(req.body);
+    // res.redirect()
     var Roles = await fileReader.readEjsFile(__dirname + '/ERC20contracts/Roles.sol');
     var ERC20 = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20.sol');
     var ERC20Detailed = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20Detailed.sol');
@@ -137,7 +138,7 @@ module.exports = {
     }, async (err, data) => {
       if (err)
         console.log(err);
-        console.log("innnn before upgrafdeeeee2222")
+        console.log("innnn before upgrafdeeeee2222",data)
 
       req.session.contract = data;
       req.session.coinName = req.body.token_name;
@@ -283,6 +284,7 @@ module.exports = {
     });
   },
   createERC721Contract: async (req, res) => {
+    console.log("innnnnn dataaaaaaaaaa")
     var SafeMath = await fileReader.readEjsFile(__dirname + '/ERC721contracts/SafeMath.sol');
     var Roles = await fileReader.readEjsFile(__dirname + '/ERC721contracts/Roles.sol');
     var ERC721Holder = await fileReader.readEjsFile(__dirname + '/ERC721contracts/ERC721Holder.sol');
@@ -327,6 +329,7 @@ module.exports = {
     }, (err, data) => {
       if (err)
         console.log(err);
+        console.log(data,"dataaaaaaaaaa")
       req.session.contract = data;
       req.session.coinName = req.body.token_name;
       req.session.coinSymbol = req.body.token_symbol;

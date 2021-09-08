@@ -121,7 +121,7 @@ module.exports = {
   }),
 
   facebookLogin: passport.authenticate("facebook", {
-    scope: ["public_profile ", "email"]
+    scope: [ "email"]
   }),
 
   facebookLoginCallback: passport.authenticate("facebook", {

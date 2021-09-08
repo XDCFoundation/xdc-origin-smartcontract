@@ -123,7 +123,7 @@ module.exports = {
         if (err)
           console.log(err);
         projectData.crowdsaleContractCode = data;
-        console.log("On generate333333")
+        console.log("On generate333333",data)
         nodemailerservice.sendContractEmail(req.user.email, data, req.session.coinName, "Crowdsale Contract");
         await projectData.save();
         res.render('deployedContract', {

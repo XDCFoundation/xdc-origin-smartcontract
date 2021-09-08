@@ -1,8 +1,8 @@
 module.exports = {
 
   'githubAuth': {
-    'clientID': 'c455ac87f1a99c52cde0',
-    'clientSecret': 'dd91931ce6cebad79d6a035ace4a7fe2d595bc85',
+    'clientID': 'a7eb8e98c276644b7b19',
+    'clientSecret': '56a51a2089284e9c0f97f83584587aca888ab8a1',
     'callbackURL': '/auth/github/callback'
   },
 
@@ -13,15 +13,19 @@ module.exports = {
   },
 
   'facebookAuth' : {
-    'clientID'      : '257057545245950', // your App ID
-    'clientSecret'  : '0134a4bf8842cca0f616bee3b30f8803', // your App Secret
-    'callbackURL'   : '/auth/facebook/callback'
+    'clientID'      : '904187303537984', // your App ID
+    'clientSecret'  : 'ec009411eb0b6fb7d57644ec5667e734', // your App Secret
+    'callbackURL'   : 'http://127.0.0.1/auth/facebook/callback'
 },
 
   'nodemailerAuth': {
     'user': 'contract@mail-b01.cloudmailbox.in',
     'pass': 'Hak-ess@2018**',
   },
+  // 'nodemailerAuth': {
+  //   'user': 'srevathi036@gmail.com',
+  //   'pass': 'Revathi2@8121',
+  // },
 
   'jwtAuthKey': {
     'secret': "heyitsmeakshayhere",
