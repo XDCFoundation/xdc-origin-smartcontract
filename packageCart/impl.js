@@ -26,7 +26,9 @@ module.exports = {
     if (req.user.paymentOTP) {
        otpExist = true 
       }
+     
     Promise.all([paymentListener.checkBalance(address)]).then(([balance]) => {
+
       res.render('buyPackage', {
         user: req.user,
         client: req.user,

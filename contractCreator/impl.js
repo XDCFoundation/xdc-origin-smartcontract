@@ -31,7 +31,7 @@ module.exports = {
   getStablecoinForm: async (req, res) => {
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
-    res.render('stableCoin', {
+    res.render('StableCoin', {
       user: req.user,
       message: req.flash('package_flash'),
       message2: req.flash('project_flash'),
@@ -62,7 +62,7 @@ module.exports = {
       ProjectConfiguration: projectArray,
     });
   },
-  createERC20Contract: async (req, res) => {
+  createERC20Contract: async (req, res, isNeedToSave=true) => {
     console.log("exist 311111");
     // console.log(req.body);
     // res.redirect()
@@ -140,9 +140,13 @@ module.exports = {
         console.log(err);
         console.log("innnn before upgrafdeeeee2222",data)
 
+      // req.session.contract = data;
+      // req.session.contract = "";
+
       req.session.contract = data;
       req.session.coinName = req.body.token_name;
       req.session.coinSymbol = req.body.token_symbol;
+      if(isNeedToSave === true) {
       nodemailerservice.sendContractEmail(req.user.email, data, req.body.token_name, "Token Contract");
       var clientdata = await client.find({
         where: {
@@ -175,6 +179,7 @@ module.exports = {
         // clientdata.package1 -= 1;
         clientdata.save();
       })
+    }
       res.redirect('/generatedContract');
     });
   },
@@ -252,7 +257,8 @@ module.exports = {
     }, async (err, data) => {
       if (err)
         console.log(err);
-      req.session.contract = data;
+      req.session.contract = "";
+      req.session.contract1 = data;
       req.session.coinName = req.body.token_name;
       req.session.coinSymbol = req.body.token_symbol;
       nodemailerservice.sendContractEmail(req.user.email, data, req.body.token_name, "Token Contract");
