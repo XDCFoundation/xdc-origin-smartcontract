@@ -50,7 +50,9 @@
                           <div id="metamaskButton" style="display:none">
                             <br>
                             <h5> You seem to be using Metamask wallet </h5>
-                            <a data-whatever="@getbootstrap" class="btn btn-rounded btn-lg btn-info mr-1"
+                           
+                            <a data-whatever="@getbootstrap"  
+                            class="btn btn-rounded btn-lg btn-info mr-1"
                               onclick="buyMetamask()">Buy
                               Using Metamask</a><br><br>
                             <h5>If you have Paypal account then buy using paypal </h5>
@@ -166,7 +168,9 @@
     e.preventDefault();
   });
 </script>
+
 <script>
+  
   checkMetamask();
   function checkMetamask() {
     if (typeof web3 !== 'undefined') {
@@ -177,8 +181,11 @@
       $('#bancor-wc-id-1').show();
     }
   }
+
   function buyMetamask() {
-    console.log(window.web3,window.ethereum,"ethhh")
+
+
+    // console.log(res,"ethhh000000000000000000000000000000000")
 
     console.log(window.web3.eth.net,"networkType11111")
     web3.eth.net.getNetworkType()
@@ -265,7 +272,8 @@
       } else {
         //  buyPackageSuccess(transaction,data)
         console.log(window.location.origin,"window")
-         window.location.href= window.location.origin +'/generatedContract'
+        window.history.back();
+        //  window.location.href= window.location.origin +'/generatedContract'
         //  window.open('http://localhost:4000/generatedContract','_blank')
         // .then(function(err, data1){
           sendPaymentInfo();

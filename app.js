@@ -122,6 +122,7 @@ require('./quickbook/routes')(app,express);
 // require("./open-api/routes")(app);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+  // console.log(req,res,"resss")
   next(createError(404));
 });
 

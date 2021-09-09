@@ -1,6 +1,7 @@
 const impl = require("./impl");
 var db = require('../database/models/index');
 var client = db.client;
+var request = require('request');
 
 
 module.exports = function (app) {
@@ -14,7 +15,7 @@ module.exports = function (app) {
   app.post('/createERC20Contract', isLoggedIn, coinNameExist, hasPackage1,  impl.createERC20Contract);
   app.post('/createERC223Contract', isLoggedIn, coinNameExist, hasPackage1,  impl.createERC223Contract);
   app.post('/createUSDCToken', impl.createUSDCToken);
-  app.post("/createERC223ContractNew", buyPackageSuccess, impl.createERC20Contract);
+  // app.post("/createERC223ContractNew", buyPackageSuccess, impl.createERC20Contract);
 
 
 }
@@ -63,15 +64,45 @@ function hasPackage1(req, res, next) {
     result.attemptsCount = result.attemptsCount + 1;
     console.log(result.package1,"result.package1")
     await result.save().then(console.log("attmpt added", result.package1));
-    // if (result.package1 > 0) {
-    //   console.log(result.package1,"result.package122221111111")
-    //   return next();
-    // }
-    //  else {
+    // console.log(req,"reqreqreq")
+   
+    // var options = {
+    //   // host: 'http://localhost:4000',
+    //   // port: 80,
+    //   // path: '/createERC20Contract',
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     // 'Content-Length': data.length
+    //   },
+    //   uri:'http://localhost:4000/createERC20Contract',
+     
+    //   body:req
+     
+    //   // data: JSON.stringify({ "address": address }),
+    // };
+    // console.log(options,"optionsoptions")
+    // request(options, function(res) {
+    //   console.log(res,"res")
+    //   console.log('STATUS: ' + res.statusCode);
+    //   console.log('HEADERS: ' + JSON.stringify(res.headers));
+    //   res.setEncoding('utf8');
+    //   res.on('data', function (chunk) {
+    //     console.log('BODY: ' + chunk);
+    //   });
+    // })
+    // res.redirect('/createERC20Contract')
+    if (result.package1 > 0) {
+      console.log(result.package1,"result.package122221111111")
+      return next();
+    }
+     else {
     //   console.log(result.package1,"result.package133333")
-    //   req.flash('package_flash', "You need to buy Package 1 by contributing 50 USD worth of XDCe");
+      req.flash('package_flash', "You need to buy Package 1 by contributing 50 USD worth of XDCe");
+      // impl.createERC20Contract(req,res,false)
       res.redirect('/generatedContract');
-    // }
+            // impl.createERC20Contract(req,res,false)
+    }
   });
 }
 
