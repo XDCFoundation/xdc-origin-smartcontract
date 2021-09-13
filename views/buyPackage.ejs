@@ -156,6 +156,11 @@
   }
 
 </script>
+<% var test =req; %>
+        <script>
+           var getTest = "<%= test  %>"; 
+           console.log(getTest);
+        </script> 
 <script>
   $(document).keydown(function (event) {
     if (event.keyCode == 123) { // Prevent F12
@@ -170,7 +175,8 @@
 </script>
 
 <script>
-  
+// import  createERC20Contract  from '../conctractCreator/impl.js';
+// console.log(createERC20Contract,"create") 
   checkMetamask();
   function checkMetamask() {
     if (typeof web3 !== 'undefined') {
@@ -216,7 +222,8 @@
       url: '/api/sendPaymentInfo',
       success: function (data) {
         console.log("Success");
-        buyPackageSuccess();
+        // buyPackageSuccess();
+
       },
       contentType: "application/json",
       dataType: 'json'
@@ -270,48 +277,54 @@
       if (err) {
         console.log("Failed");
       } else {
-        //  buyPackageSuccess(transaction,data)
+        console.log("success metamask");
+        // getPaymentToken(window.web3.currentProvider.selectedAddress);
+        buyPackageSuccessTest();
+         buyPackageSuccess();
         console.log(window.location.origin,"window")
-        window.history.back();
+
+        // window.history.back();
         //  window.location.href= window.location.origin +'/generatedContract'
         //  window.open('http://localhost:4000/generatedContract','_blank')
         // .then(function(err, data1){
           sendPaymentInfo();
         console.log("Successfulllll");
-        // });
-       
-       
+        // });       
         // data.redirect('/generatedContract');
       }
     });
   }
-//   function buyPackageSuccess(req, res, next) {
-//   console.log("Here1111"); 
-//       res.redirect('/generatedContract');
-// }
-  function buyPackageSuccess(req, res, next) {
-  console.log("Here1111",res); 
-      res.redirect('/generatedContract');
+
+  function buyPackageSuccessTest() {
+  console.log("Here11111111"); 
+      // res.redirect('/generatedContract');
 }
-// function buyPackageSuccess() {
-      
-//         $.get({
-//           method:"get",
-//           url:"/generatedContract",
-         
-//           success: (resp) => {
-//             console.log("recvd. response for /api/getProjectKey");
-//             if (resp) {
-//               // open the private key in modal
-//             resp.redirect('/generatedContract')
-//             }
-//           },
-//           error: err => {
-//             console.log("error while making post req. /api/getProjectKey");
-//             console.log(err);
-//           }
-//         })
-//       }
+function buyPackageSuccess() {
+      let req ={
+        
+        user:{
+          email:"revathi@leewayhertz111.com",
+          package1:1
+        }
+      }
+      $.ajax({
+          method:"post",
+          url:"/createERC223Contract",
+          // body:req,
+          success: (resp) => {
+            console.log("recvd. response for /api/getProjectKey");
+            if (resp) {
+              console.log("resp");
+              // open the private key in modal
+            // resp.redirect('/generatedContract')
+            }
+          },
+          error: err => {
+            console.log("error while making post req. /api/getProjectKey");
+            console.log(err,"errr");
+          }
+        })
+      }
 // function sendOTP() {
 //     console.log("inside otp")
 //     $.get("/payment")
