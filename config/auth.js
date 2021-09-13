@@ -1,8 +1,8 @@
 module.exports = {
 
   'githubAuth': {
-    'clientID': 'a7eb8e98c276644b7b19',
-    'clientSecret': '56a51a2089284e9c0f97f83584587aca888ab8a1',
+    'clientID': '7d8406dcfbee5d29ffd2',
+    'clientSecret': '1ac87c12c4f4bfa8b15dcef49da9e5165235cc53',
     'callbackURL': '/auth/github/callback'
   },
 

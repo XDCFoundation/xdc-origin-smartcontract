@@ -202,7 +202,7 @@ module.exports = function (passport) {
 
     clientID: configAuth.googleAuth.clientID,
     clientSecret: configAuth.googleAuth.clientSecret,
-    callbackURL: configAuth.googleAuth.callbackURL,
+    callbackURL: 'http://localhost:4000/auth/google/callback',
 
   },
     function (token, refreshToken, profile, done) {
@@ -247,7 +247,7 @@ module.exports = function (passport) {
     {
     clientID : configAuth.facebookAuth.clientID,
     clientSecret : configAuth.facebookAuth.clientSecret,
-    callbackURL : 'http://localhost:4000/dashboard',
+    callbackURL : 'http://localhost:4000/auth/facebook/callback',
     // profileURL: 'https://graph.facebook.com/v2.10/me',
     // authorizationURL: 'https://www.facebook.com/v2.10/dialog/oauth',
     // tokenURL: 'https://graph.facebook.com/v2.10/oauth/access_token',
@@ -294,7 +294,7 @@ module.exports = function (passport) {
   passport.use(new GitHubStrategy({
     clientID: configAuth.githubAuth.clientID,
     clientSecret: configAuth.githubAuth.clientSecret,
-    callbackURL:'http://localhost:4000/login',
+    callbackURL:'http://localhost:4000/auth/github/callback',
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {

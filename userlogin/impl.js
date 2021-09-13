@@ -116,7 +116,7 @@ module.exports = {
   }),
 
   googleLoginCallback: passport.authenticate("google", {
-    successRedirect: 'https://localhost:4000/dashboard',
+    successRedirect: '/dashboard',
     failureRedirect: '/'
   }),
 

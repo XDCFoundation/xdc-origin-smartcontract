@@ -123,6 +123,7 @@ require('./quickbook/routes')(app,express);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   // console.log(req,res,"resss")
+  console.log("heiiii")
   next(createError(404));
 });
 
