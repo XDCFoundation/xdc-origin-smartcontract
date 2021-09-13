@@ -15,7 +15,7 @@ module.exports = {
   'facebookAuth' : {
     'clientID'      : '904187303537984', // your App ID
     'clientSecret'  : 'ec009411eb0b6fb7d57644ec5667e734', // your App Secret
-    'callbackURL'   : 'http://127.0.0.1/auth/facebook/callback'
+    'callbackURL'   : 'http://localhost/auth/facebook/callback'
 },
 
   'nodemailerAuth': {
