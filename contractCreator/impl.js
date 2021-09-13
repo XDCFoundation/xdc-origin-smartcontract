@@ -31,7 +31,7 @@ module.exports = {
   getStablecoinForm: async (req, res) => {
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
-    res.render('StableCoin', {
+    res.render('stableCoin', {
       user: req.user,
       message: req.flash('package_flash'),
       message2: req.flash('project_flash'),
@@ -62,10 +62,9 @@ module.exports = {
       ProjectConfiguration: projectArray,
     });
   },
-  createERC20Contract: async (req, res, isNeedToSave=true) => {
+  createERC20Contract: async (req, reqObj, res) => {
     console.log("exist 311111");
-    // console.log(req.body);
-    // res.redirect()
+    console.log(reqObj.token_name,"token_nametoken_name");
     var Roles = await fileReader.readEjsFile(__dirname + '/ERC20contracts/Roles.sol');
     var ERC20 = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20.sol');
     var ERC20Detailed = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20Detailed.sol');
@@ -74,14 +73,19 @@ module.exports = {
     var SafeERC20 = await fileReader.readEjsFile(__dirname + '/ERC20contracts/SafeERC20.sol');
     var SafeMath = await fileReader.readEjsFile(__dirname + '/ERC20contracts/SafeMath.sol');
     var SignerRole = await fileReader.readEjsFile(__dirname + '/ERC20contracts/SignerRole.sol');
-    var isPausable = (req.body.isPausable == "on") ? true : false;
-    var isBurnable = (req.body.isBurnable == "on") ? true : false;
-    var isMintable = (req.body.isMintable == "on") ? true : false;
-    var isUpgradeable = (req.body.isUpgradeable == "on") ? true : false;
+    // var isPausable = (req.body.isPausable == "on") ? true : false;
+    // var isBurnable = (req.body.isBurnable == "on") ? true : false;
+    // var isMintable = (req.body.isMintable == "on") ? true : false;
+    // var isUpgradeable = (req.body.isUpgradeable == "on") ? true : false;
+    var isPausable = (reqObj.isPausable == "on") ? true : false;
+    var isBurnable = (reqObj.isBurnable == "on") ? true : false;
+    var isMintable = (reqObj.isMintable == "on") ? true : false;
+    var isUpgradeable = (reqObj.isUpgradeable == "on") ? true : false;
     var ERC20CappedSign = "";
     inherits = "";
     let decimalInZero = "";
-    for (let index = 0; index < req.body.token_decimals; index++) {
+    for (let index = 0; index < reqObj.token_decimals; index++) {
+      // for (let index = 0; index < req.body.token_decimals; index++) {
       decimalInZero += '0';
     }
 
@@ -101,7 +105,9 @@ module.exports = {
       var ERC20Mintable = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20Mintable.sol');
       var CapperRole = await fileReader.readEjsFile(__dirname + '/ERC20contracts/CapperRole.sol');
       var ERC20Capped = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20Capped.sol');
-      const amnt_cap = parseFloat(parseFloat(req.body.token_supply)  * 10);
+      // const amnt_cap = parseFloat(parseFloat(req.body.token_supply)  * 10);
+      const amnt_cap = parseFloat(parseFloat(reqObj.token_supply)  * 10);
+
       ERC20CappedSign = "ERC20Capped(" + removeExpo(amnt_cap) + "000000000000000000)"
       inherits += ", ERC20Mintable,ERC20Capped";
     }
@@ -129,25 +135,32 @@ module.exports = {
       "Upgradable": Upgradable,
       "ERC20Mintable": ERC20Mintable,
       //data from form
-      totalSupply: req.body.token_supply,
-      name: req.body.token_name,
-      symbol: req.body.token_symbol,
-      decimal: req.body.token_decimals,
+      // totalSupply: req.body.token_supply,
+      // name: req.body.token_name,
+      // symbol: req.body.token_symbol,
+      // decimal: req.body.token_decimals,
+      totalSupply: reqObj.token_supply,
+      name: reqObj.token_name,
+      symbol: reqObj.token_symbol,
+      decimal: reqObj.token_decimals,
       decimalInZero: decimalInZero, //"000000000000000000",
       ERC20CappedSign: ERC20CappedSign
     }, async (err, data) => {
       if (err)
         console.log(err);
-        console.log("innnn before upgrafdeeeee2222",data)
-
-      // req.session.contract = data;
-      // req.session.contract = "";
-
+        console.log("innnn before upgrafdeeeee2222",typeof reqObj.token_name,reqObj.token_symbol)
+        var coinName =(reqObj.token_name);
+        console.log(coinName,"coinNamecoinName")
+        req.session.coinName =coinName;
+        // req1.coinName =coinName;
+        // req.session.contract2 = data;
       req.session.contract = data;
-      req.session.coinName = req.body.token_name;
-      req.session.coinSymbol = req.body.token_symbol;
-      if(isNeedToSave === true) {
-      nodemailerservice.sendContractEmail(req.user.email, data, req.body.token_name, "Token Contract");
+
+      // req.session.coinName = req.body.token_name;
+      // req.session.coinSymbol = req.body.token_symbol;
+      // req.session.coinName = req.token_name;
+      req.session.coinSymbol = reqObj.token_symbol;
+      // nodemailerservice.sendContractEmail(req.user.email, data, req.body.token_name, "Token Contract");
       var clientdata = await client.find({
         where: {
           'email': req.user.email
@@ -157,21 +170,29 @@ module.exports = {
 
       var objdata = new Object();
       objdata.contractCode = result;
-      objdata.coinName = req.body.token_name;
-      objdata.tokenSupply = req.body.token_supply;
-      objdata.coinSymbol = req.body.token_symbol;
-      objdata.hardCap = req.body.token_sale;
-      objdata.ETHRate = req.body.eth_tokens;
+      // objdata.coinName = req.body.token_name;
+      // objdata.tokenSupply = req.body.token_supply;
+      // objdata.coinSymbol = req.body.token_symbol;
+      // objdata.hardCap = req.body.token_sale;
+      // objdata.ETHRate = req.body.eth_tokens;
+      objdata.coinName = reqObj.token_name;
+      objdata.tokenSupply = reqObj.token_supply;
+      objdata.coinSymbol = reqObj.token_symbol;
+      objdata.hardCap = reqObj.token_sale;
+      objdata.ETHRate = reqObj.eth_tokens;
       objdata.tokenContractCode = data;
-      objdata.bonusRate = req.body.bonus_rate == '' ? 0 : req.body.bonus_rate;
-      objdata.bonusStatus = req.body.bonus_rate == null ? true : false;
-      objdata.minimumContribution = req.body.minimum_contribution;
+      // objdata.bonusRate = req.body.bonus_rate == '' ? 0 : req.body.bonus_rate;
+      // objdata.bonusStatus = req.body.bonus_rate == null ? true : false;
+      // objdata.minimumContribution = req.body.minimum_contribution;
+      objdata.bonusRate = reqObj.bonus_rate == '' ? 0 : reqObj.bonus_rate;
+      objdata.bonusStatus = reqObj.bonus_rate == null ? true : false;
+      objdata.minimumContribution = reqObj.minimum_contribution;
       objdata.isAllowedForICOboolean = true;
       console.log("innnn before upgrafdeeeee444444444")
 
       Promise.all([generateEthAddress(), generateBTCAddress()]).then(async ([createdEthAddress, createdBTCAddress]) => {
         var projectData = await ProjectConfiguration.create(objdata)
-        console.log(projectData,"innnn before upgrafdeeeee55555555")
+        // console.log(projectData,"innnn before upgrafdeeeee55555555")
 
         await clientdata.addProjectConfiguration(projectData);
         await clientdata.addUserCurrencyAddresses([createdEthAddress, createdBTCAddress]);
@@ -179,7 +200,6 @@ module.exports = {
         // clientdata.package1 -= 1;
         clientdata.save();
       })
-    }
       res.redirect('/generatedContract');
     });
   },
@@ -257,8 +277,7 @@ module.exports = {
     }, async (err, data) => {
       if (err)
         console.log(err);
-      req.session.contract = "";
-      req.session.contract1 = data;
+      req.session.contract = data;
       req.session.coinName = req.body.token_name;
       req.session.coinSymbol = req.body.token_symbol;
       nodemailerservice.sendContractEmail(req.user.email, data, req.body.token_name, "Token Contract");
@@ -290,7 +309,6 @@ module.exports = {
     });
   },
   createERC721Contract: async (req, res) => {
-    console.log("innnnnn dataaaaaaaaaa")
     var SafeMath = await fileReader.readEjsFile(__dirname + '/ERC721contracts/SafeMath.sol');
     var Roles = await fileReader.readEjsFile(__dirname + '/ERC721contracts/Roles.sol');
     var ERC721Holder = await fileReader.readEjsFile(__dirname + '/ERC721contracts/ERC721Holder.sol');
@@ -335,7 +353,6 @@ module.exports = {
     }, (err, data) => {
       if (err)
         console.log(err);
-        console.log(data,"dataaaaaaaaaa")
       req.session.contract = data;
       req.session.coinName = req.body.token_name;
       req.session.coinSymbol = req.body.token_symbol;
@@ -425,16 +442,37 @@ module.exports = {
   getGeneratedContract: async function (req, res) {
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
-    console.log(req.session.coinName, req.session.coinSymbol,"symbol");
-    console.log (req.session.contract,"llllll");
+    console.log(req.session.coinName, req.session.coinSymbol,req.user,"symbol");
+    console.log("address",address);
+    console.log("projectArray",projectArray);
+    // console.log (req.session.contract,"llllll");
     res.render('deployedContract', {
       message1: "This is your token contract and this will hold all your tokens. Please do not close this tab.",
       user: req.user,
       address: address,
       ProjectConfiguration: projectArray,
       contract: req.session.contract,
-      coinName: req.session.coinName,
-      coinSymbol: req.session.coinSymbol
+      coinName: "Kkkkk",
+      coinSymbol: "kkkk"
+    });
+  },
+
+  getDeployedContractDetails: async function (req, res) {
+    console.log("response...",res);
+    var projectArray = await getProjectArray(req.user.email);
+    var address = req.cookies['address'];
+    console.log(req.session.coinName, req.session.coinSymbol,req.user,"symbol");
+    console.log("address",address);
+    // console.log("projectArray",projectArray);
+    // console.log (req.session.contract,"llllll");
+    res.render('deployedContract', {
+      message1: "This is your token contract and this will hold all your tokens. Please do not close this tab.",
+      user: req.user,
+      address: address,
+      ProjectConfiguration: projectArray,
+      contract: req.session.contract,
+      coinName: "Kkkkk",
+      coinSymbol: "kkkk"
     });
   },
 }

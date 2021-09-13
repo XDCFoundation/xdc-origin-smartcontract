@@ -37,7 +37,8 @@ module.exports = {
         ProjectConfiguration: projectArray,
         otpField: otpExist,
         sufficientBalance: parseFloat(cmcPrice)<=parseFloat(balance),
-        priceXDCe:Math.floor(cmcPrice)
+        priceXDCe:Math.floor(cmcPrice),
+        req:req
       });
     });
   }catch(e){console.log(e);}
