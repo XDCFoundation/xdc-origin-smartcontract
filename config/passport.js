@@ -298,11 +298,14 @@ module.exports = function (passport) {
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {
+      console.log("github 301 ========================= profile", profile );
+      console.log("github 301 ========================= token", token );
+      console.log("github 301 ========================= refreshToken", refreshToken );
       // console.log(" in github 1.1",profile);
       // make the code asynchronous
       // User.findOne won't fire until we have all our data back from Google
       process.nextTick(function () {
-
+        console.log("profile.emails[0].value ======== ", profile.emails[0].value);
         // try to find the user based on their google id
         client.find({
           where: {
@@ -310,11 +313,14 @@ module.exports = function (passport) {
           }
         }).then(async result => {
           if (result) {
+            console.log("316 -----====")
             result.github_id = profile.id;
             result.status = true;
             await result.save();
+            console.log("result ======================= ", result, result.dataValues)
             return done(null, result.dataValues);
           } else {
+            console.log("322 -----====")
             // if the user isnt in our database, create a new user
             var newUser = new Object();
             // set all of the relevant information
