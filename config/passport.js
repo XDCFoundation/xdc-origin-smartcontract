@@ -209,6 +209,7 @@ module.exports = function (passport) {
 
       // make the code asynchronous
       // User.findOne won't fire until we have all our data back from Google
+      console.log("GOOGLE PROFILE ======= ", profile)
       process.nextTick(function () {
         // try to find the user based on their google id
         client.find({
@@ -256,7 +257,7 @@ module.exports = function (passport) {
      
   // facebook will send back the token and profile
   function (token,refreshToken,profile,done) {
-    console.log("hiiiiii")
+    console.log("FACEBOOK PROFILE ====================== ", profile)
     // asynchronous
     process.nextTick(function () {
       console.log("inside facebook",profile);
@@ -305,29 +306,35 @@ module.exports = function (passport) {
       // make the code asynchronous
       // User.findOne won't fire until we have all our data back from Google
       process.nextTick(function () {
-        console.log("profile.emails[0].value ======== ", profile.emails[0].value);
+        console.log("profile.emails[0].value ======== ", profile.email);
         // try to find the user based on their google id
         client.find({
           where: {
-            'email': profile.emails[0].value
+            'github_id': profile.id
           }
         }).then(async result => {
           if (result) {
-            console.log("316 -----====")
+            // console.log("316 -----====")
             result.github_id = profile.id;
             result.status = true;
             await result.save();
-            console.log("result ======================= ", result, result.dataValues)
+            // console.log("result ======================= ", result, result.dataValues)
             return done(null, result.dataValues);
           } else {
-            console.log("322 -----====")
+            // console.log("322 -----====")
             // if the user isnt in our database, create a new user
             var newUser = new Object();
+
+            // console.log("328 profile.email ===========", profile._json.email);
+
             // set all of the relevant information
             newUser.github_id = profile.id;
             newUser.name = profile.displayName;
-            newUser.email = profile.emails[0].value; // pull the first email
+            newUser.email = profile._json.email; // pull the first email
             newUser.status = true;
+
+            // console.log("newUser ==============", newUser);
+
             // newUser.package1 = 1 ;
             Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
               var createdClient = await client.create(newUser);
