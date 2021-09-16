@@ -257,10 +257,10 @@ module.exports = function (passport) {
      
   // facebook will send back the token and profile
   function (token,refreshToken,profile,done) {
-    console.log("FACEBOOK PROFILE ====================== ", profile)
+
     // asynchronous
     process.nextTick(function () {
-      console.log("inside facebook",profile);
+
       // try to find the user based on their google id
       client.find({
         where: {
@@ -299,14 +299,12 @@ module.exports = function (passport) {
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {
-      console.log("github 301 ========================= profile", profile );
-      console.log("github 301 ========================= token", token );
-      console.log("github 301 ========================= refreshToken", refreshToken );
+
       // console.log(" in github 1.1",profile);
       // make the code asynchronous
       // User.findOne won't fire until we have all our data back from Google
       process.nextTick(function () {
-        console.log("profile.emails[0].value ======== ", profile.email);
+
         // try to find the user based on their google id
         client.find({
           where: {
@@ -314,18 +312,18 @@ module.exports = function (passport) {
           }
         }).then(async result => {
           if (result) {
-            // console.log("316 -----====")
+
             result.github_id = profile.id;
             result.status = true;
             await result.save();
-            // console.log("result ======================= ", result, result.dataValues)
+
             return done(null, result.dataValues);
           } else {
-            // console.log("322 -----====")
+
             // if the user isnt in our database, create a new user
             var newUser = new Object();
 
-            // console.log("328 profile.email ===========", profile._json.email);
+
 
             // set all of the relevant information
             newUser.github_id = profile.id;
@@ -333,7 +331,6 @@ module.exports = function (passport) {
             newUser.email = profile._json.email; // pull the first email
             newUser.status = true;
 
-            // console.log("newUser ==============", newUser);
 
             // newUser.package1 = 1 ;
             Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
