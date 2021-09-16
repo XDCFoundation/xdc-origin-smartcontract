@@ -50,9 +50,7 @@
                           <div id="metamaskButton" style="display:none">
                             <br>
                             <h5> You seem to be using Metamask wallet </h5>
-                           
-                            <a data-whatever="@getbootstrap"  
-                            class="btn btn-rounded btn-lg btn-info mr-1"
+                            <a data-whatever="@getbootstrap" class="btn btn-rounded btn-lg btn-info mr-1"
                               onclick="buyMetamask()">Buy
                               Using Metamask</a><br><br>
                             <h5>If you have Paypal account then buy using paypal </h5>
@@ -156,11 +154,6 @@
   }
 
 </script>
-<% var test =req; %>
-        <script>
-           var getTest = "<%= test  %>"; 
-           console.log(getTest);
-        </script> 
 <script>
   $(document).keydown(function (event) {
     if (event.keyCode == 123) { // Prevent F12
@@ -173,10 +166,7 @@
     e.preventDefault();
   });
 </script>
-
 <script>
-// import  createERC20Contract  from '../conctractCreator/impl.js';
-// console.log(createERC20Contract,"create") 
   checkMetamask();
   function checkMetamask() {
     if (typeof web3 !== 'undefined') {
@@ -187,148 +177,76 @@
       $('#bancor-wc-id-1').show();
     }
   }
-
   function buyMetamask() {
-
-
-    // console.log(res,"ethhh000000000000000000000000000000000")
-
-    console.log(window.web3.eth.net,"networkType11111")
-    web3.eth.net.getNetworkType()
-.then(console.log);
     window.web3.eth.net.getNetworkType().then(networkType => {
-      console.log(networkType, "networkType")
-      // if (networkType == 'private') {
-        if (networkType != 'main') {
-
-        
-        // window.alert("Please change network in your Metamask to Mainnet");
-        // console.log("networkTypessssssssss1111",window.web3.currentProvider.publicConfigStore.getState().selectedAddress)
+      if (networkType != 'main') {
         getPaymentToken(window.web3.currentProvider.selectedAddress, networkType);
       }
       else {
-        console.log("networkTypessssssssss",window.web3.currentProvider.selectedAddress)
-        // window.alert("Please change network in your Metamask to Mainnet");
-        // getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
         getPaymentToken(window.web3.currentProvider.selectedAddress);
-
       }
     });
   }
 
   function sendPaymentInfo() {
+    console.log('In sendPaymentInfo>>>')
     $.ajax({
       type: 'POST',
       url: '/api/sendPaymentInfo',
       success: function (data) {
-        console.log("Success");
-        // buyPackageSuccess();
+        console.log("Success In sendPaymentInfo>>>");
+        // console.log('session token>>>', window.sessionStorage.getItem("tokenName"))
 
+        document.location.href = '/generatedContract'
+      },
+      error: function (data) {
+        console.log("Error In sendPaymentInfo>>>");
       },
       contentType: "application/json",
       dataType: 'json'
     });
   }
 
-  function getPaymentToken(address,networkType) {
+  function getPaymentToken(address) {
+    console.log('in getPaymentToken>>>>')
     $.ajax({
       type: 'POST',
       url: '/api/getPaymentToken',
       data: JSON.stringify({ "address": address }),
       success: function (data) {
-        console.log(data,"data")
-        sendTransaction(networkType);
+        console.log('in getPaymentToken Success>>>>')
+        sendTransaction();
       },
       contentType: "application/json",
       dataType: 'json'
     });
   }
 
-  async function sendTransaction(networkType) {
+  async function sendTransaction() {
+    console.log('in sendTransaction>>>>')
     var contractInstance = new window.web3.eth.Contract(xdce_abi, xdce_address);
-    console.log(networkType,"newwwwwwwwww")
     // const priceUsd = (await $.get("https://blockdegree.org/api/wrapCoinMarketCap")).data;
-    // const priceXdc = Math.floor(50/priceUsd);
+    // const priceXdc = Math.floor(50/priceUsd)
+
     const priceUsd = 1;
     const priceXdc = 1;
-
-    let from;
-    if(networkType !='main') {
-      if(networkType =='private'){
-        
-        from=window.web3.currentProvider.publicConfigStore.getState().selectedAddress;
-      } else {
-        from = window.web3.currentProvider.selectedAddress;
-      }
-     
-    } else {
-     from = window.web3.currentProvider.selectedAddress;
-    }
-    // console.log(window.web3.currentProvider.publicConfigStore.getState().selectedAddress,"window.web3.currentProvider.publicConfigStore.getState().selectedAddress,")
+    // console.log(window.web3.currentProvider.publicConfigStore.getState().selectedAddress,"address")
     var transaction = {
-      "from":from,
-      // "from": window.web3.currentProvider.publicConfigStore.getState().selectedAddress,
-      // "from":  window.web3.currentProvider.selectedAddress,
+      "from": window.web3.currentProvider.selectedAddress,
       "to": "0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2",
       "value": "0x0",
       "data": contractInstance.methods.transfer("0x920e938a80fa1669b608166741eeb01de6c57402", `${priceXdc}`).encodeABI()
     };
     window.web3.eth.sendTransaction(transaction, (err, data) => {
+      console.log('in sendTransaction web3>>>>')
       if (err) {
         console.log("Failed");
       } else {
-        console.log("success metamask");
-        // getPaymentToken(window.web3.currentProvider.selectedAddress);
-        buyPackageSuccessTest();
-         buyPackageSuccess();
-        console.log(window.location.origin,"window")
-
-        // window.history.back();
-        //  window.location.href= window.location.origin +'/generatedContract'
-        //  window.open('http://localhost:4000/generatedContract','_blank')
-        // .then(function(err, data1){
-          sendPaymentInfo();
-        console.log("Successfulllll");
-        // });       
-        // data.redirect('/generatedContract');
+        sendPaymentInfo();
+        console.log("in sendTransaction Successful");
       }
     });
   }
-
-  function buyPackageSuccessTest() {
-  console.log("Here11111111"); 
-      // res.redirect('/generatedContract');
-}
-function buyPackageSuccess() {
-      let req ={
-        
-        user:{
-          email:"revathi@leewayhertz111.com",
-          package1:1
-        }
-      }
-      $.ajax({
-          method:"post",
-          url:"/createERC223Contract",
-          // body:req,
-          success: (resp) => {
-            console.log("recvd. response for /api/getProjectKey");
-            if (resp) {
-              console.log("resp");
-              // open the private key in modal
-            // resp.redirect('/generatedContract')
-            }
-          },
-          error: err => {
-            console.log("error while making post req. /api/getProjectKey");
-            console.log(err,"errr");
-          }
-        })
-      }
-// function sendOTP() {
-//     console.log("inside otp")
-//     $.get("/payment")
-//   }
 </script>
 <script src="https://widget-convert.bancor.network/v1"></script>
 <script>
@@ -348,21 +266,16 @@ function buyPackageSuccess() {
     // Modern dapp browsers...
     if (window.ethereum) {
       window.web3 = new Web3(ethereum);
-      // if (window.apothem) {
-      // window.web3 = new Web3(apothem);
       try {
         // Request account access if needed
         await ethereum.enable();
-        // await apothem.enable();
         window.web3.eth.net.getNetworkType().then(networkType => {
           if (networkType != 'main') {
-            // if (networkType == 'private') {
             console.log(networkType, "networkType")
-            // window.alert("Please change network in your Metamask to Mainnet");
-            getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
+            window.alert("Please change network in your Metamask to Mainnet");
           }
           else {
-            getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
+            // getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
           }
         });
         // web3.eth.sendTransaction({/* ... */ });
