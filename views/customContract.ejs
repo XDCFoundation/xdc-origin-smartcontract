@@ -191,7 +191,6 @@
 <script>
   window.setTimeout(function () {
     if (window.sessionStorage.getItem("tokenName")) {
-      console.log("in tokennnnn")
       $("#token_name").val(window.sessionStorage.getItem("tokenName"));
       $("#token_symbol").val(window.sessionStorage.getItem("tokenSymbol"));
       $("#token_decimals").val(window.sessionStorage.getItem("tokenDecimals"));
@@ -202,8 +201,6 @@
   }, 1000);
 
   function submitForm() {
-    console.log("in tokennnnn submit")
-
     window.sessionStorage.setItem("tokenName", $("#token_name").val());
     window.sessionStorage.setItem("tokenSymbol", $("#token_symbol").val());
     window.sessionStorage.setItem("tokenDecimals", $("#token_decimals").val());

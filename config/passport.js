@@ -164,7 +164,6 @@ module.exports = function (passport) {
     passReqToCallback: true // allows us to pass back the entire request to the callback
   },
     function (req, email, password, done) {
-      console.log("innnnnn")
       process.nextTick(function () {
         // find a user whose email is the same as the forms email
         client.find({
@@ -184,8 +183,7 @@ module.exports = function (passport) {
             newUser.email = email;
             newUser.password = generateHash(password);
             newUser.status = false;
-            // newUser.package1 = 1 ;
-            console.log("innnnnn")
+            newUser.package1 = 0 ;
             Promise.all([generateEthAddress(), createNewClient(req)]).then(([createdEthAddress, createdClient]) => {
               createdClient.addUserCurrencyAddress(createdEthAddress);
               //activation email sender
@@ -202,14 +200,13 @@ module.exports = function (passport) {
 
     clientID: configAuth.googleAuth.clientID,
     clientSecret: configAuth.googleAuth.clientSecret,
-    callbackURL: 'http://localhost:4000/auth/google/callback',
+    callbackURL: configAuth.googleAuth.callbackURL,
 
   },
     function (token, refreshToken, profile, done) {
 
       // make the code asynchronous
       // User.findOne won't fire until we have all our data back from Google
-      console.log("GOOGLE PROFILE ======= ", profile)
       process.nextTick(function () {
         // try to find the user based on their google id
         client.find({
@@ -230,7 +227,7 @@ module.exports = function (passport) {
             newUser.name = profile.displayName;
             newUser.email = profile.emails[0].value; // pull the first email
             newUser.status = true;
-            // newUser.package1 = 1 ;
+            newUser.package1 = 0 ;
             Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
               var createdClient = await client.create(newUser);
               createdClient.addUserCurrencyAddress(createdEthAddress);
@@ -248,19 +245,18 @@ module.exports = function (passport) {
     {
     clientID : configAuth.facebookAuth.clientID,
     clientSecret : configAuth.facebookAuth.clientSecret,
-    callbackURL : 'http://localhost:4000/auth/facebook/callback',
+    callbackURL : "https://mycontract.co/auth/facebook/callback",
     // profileURL: 'https://graph.facebook.com/v2.10/me',
     // authorizationURL: 'https://www.facebook.com/v2.10/dialog/oauth',
     // tokenURL: 'https://graph.facebook.com/v2.10/oauth/access_token',
-   // profileFields: ['email','first_name','last_name','gender','link']
+    profileFields: ['email','first_name','last_name','gender','link']
   },
      
   // facebook will send back the token and profile
   function (token,refreshToken,profile,done) {
-
     // asynchronous
     process.nextTick(function () {
-
+      console.log("inside facebook",profile);
       // try to find the user based on their google id
       client.find({
         where: {
@@ -280,7 +276,7 @@ module.exports = function (passport) {
           newUser.name = profile.displayName;
           newUser.email = profile.emails[0].value; // pull the first email
           newUser.status = true;
-          // newUser.package1 = 1 ;
+          newUser.package1 = 0 ;
           Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
             var createdClient = await client.create(newUser);
             createdClient.addUserCurrencyAddress(createdEthAddress);
@@ -295,11 +291,10 @@ module.exports = function (passport) {
   passport.use(new GitHubStrategy({
     clientID: configAuth.githubAuth.clientID,
     clientSecret: configAuth.githubAuth.clientSecret,
-    callbackURL:'http://localhost:4000/auth/github/callback',
+    callbackURL: configAuth.githubAuth.callbackURL,
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {
-
       // console.log(" in github 1.1",profile);
       // make the code asynchronous
       // User.findOne won't fire until we have all our data back from Google
@@ -308,31 +303,23 @@ module.exports = function (passport) {
         // try to find the user based on their google id
         client.find({
           where: {
-            'github_id': profile.id
+            'email': profile.emails[0].value
           }
         }).then(async result => {
           if (result) {
-
             result.github_id = profile.id;
             result.status = true;
             await result.save();
-
             return done(null, result.dataValues);
           } else {
-
             // if the user isnt in our database, create a new user
             var newUser = new Object();
-
-
-
             // set all of the relevant information
             newUser.github_id = profile.id;
             newUser.name = profile.displayName;
-            newUser.email = profile._json.email; // pull the first email
+            newUser.email = profile.emails[0].value; // pull the first email
             newUser.status = true;
-
-
-            // newUser.package1 = 1 ;
+            newUser.package1 = 0 ;
             Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
               var createdClient = await client.create(newUser);
               createdClient.addUserCurrencyAddress(createdEthAddress);
