@@ -17,7 +17,6 @@ connectionHeartbeat();
 function connectionHeartbeat() {
   setInterval(async () => {
     try {
-      // web3 = new Web3(new Web3.providers.WebsocketProvider(url));
       const isActive = await web3.eth.net.isListening();
       console.log(`connection status web3 paymentListener:${isActive}`);
       if (!isActive && inReconn === false) web3Reconn();
@@ -138,11 +137,8 @@ module.exports = {
   },
 
   checkBalance: (address) => {
-    console.log(address,"address")
     return new Promise(function (resolve, reject) {
-console.log("in listener")
       contractInstance.methods.balanceOf(address).call().then(balance => {
-        console.log(balance,"balaaaaaa")
         resolve(balance / 10 ** 18);
       }).catch(error => {
         reject(error);

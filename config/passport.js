@@ -164,7 +164,6 @@ module.exports = function (passport) {
     passReqToCallback: true // allows us to pass back the entire request to the callback
   },
     function (req, email, password, done) {
-      console.log("innnnnn")
       process.nextTick(function () {
         // find a user whose email is the same as the forms email
         client.find({
@@ -184,8 +183,7 @@ module.exports = function (passport) {
             newUser.email = email;
             newUser.password = generateHash(password);
             newUser.status = false;
-            // newUser.package1 = 1 ;
-            console.log("innnnnn")
+            newUser.package1 = 0 ;
             Promise.all([generateEthAddress(), createNewClient(req)]).then(([createdEthAddress, createdClient]) => {
               createdClient.addUserCurrencyAddress(createdEthAddress);
               //activation email sender
@@ -229,7 +227,7 @@ module.exports = function (passport) {
             newUser.name = profile.displayName;
             newUser.email = profile.emails[0].value; // pull the first email
             newUser.status = true;
-            // newUser.package1 = 1 ;
+            newUser.package1 = 0 ;
             Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
               var createdClient = await client.create(newUser);
               createdClient.addUserCurrencyAddress(createdEthAddress);
@@ -247,16 +245,15 @@ module.exports = function (passport) {
     {
     clientID : configAuth.facebookAuth.clientID,
     clientSecret : configAuth.facebookAuth.clientSecret,
-    callbackURL : configAuth.googleAuth.callbackUR,
+    callbackURL : "https://mycontract.co/auth/facebook/callback",
     // profileURL: 'https://graph.facebook.com/v2.10/me',
     // authorizationURL: 'https://www.facebook.com/v2.10/dialog/oauth',
     // tokenURL: 'https://graph.facebook.com/v2.10/oauth/access_token',
-   // profileFields: ['email','first_name','last_name','gender','link']
+    profileFields: ['email','first_name','last_name','gender','link']
   },
      
   // facebook will send back the token and profile
   function (token,refreshToken,profile,done) {
-    console.log("hiiiiii")
     // asynchronous
     process.nextTick(function () {
       console.log("inside facebook",profile);
@@ -279,7 +276,7 @@ module.exports = function (passport) {
           newUser.name = profile.displayName;
           newUser.email = profile.emails[0].value; // pull the first email
           newUser.status = true;
-          // newUser.package1 = 1 ;
+          newUser.package1 = 0 ;
           Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
             var createdClient = await client.create(newUser);
             createdClient.addUserCurrencyAddress(createdEthAddress);
@@ -294,7 +291,7 @@ module.exports = function (passport) {
   passport.use(new GitHubStrategy({
     clientID: configAuth.githubAuth.clientID,
     clientSecret: configAuth.githubAuth.clientSecret,
-    callbackURL:configAuth.githubAuth.callbackURL,
+    callbackURL: configAuth.githubAuth.callbackURL,
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {
@@ -322,7 +319,7 @@ module.exports = function (passport) {
             newUser.name = profile.displayName;
             newUser.email = profile.emails[0].value; // pull the first email
             newUser.status = true;
-            // newUser.package1 = 1 ;
+            newUser.package1 = 0 ;
             Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
               var createdClient = await client.create(newUser);
               createdClient.addUserCurrencyAddress(createdEthAddress);
