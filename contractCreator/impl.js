@@ -31,7 +31,7 @@ module.exports = {
   getStablecoinForm: async (req, res) => {
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
-    res.render('stableCoin', {
+    res.render('StableCoin', {
       user: req.user,
       message: req.flash('package_flash'),
       message2: req.flash('project_flash'),
