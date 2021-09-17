@@ -63,7 +63,7 @@ function hasPackage1(req, res, next) {
     if (result.package1 > 0) {
       return next();
     } else {
-      req.flash('package_flash', "You need to buy Package 1 by contributing 50 USD worth of XDCe");
+      req.flash('package_flash', "You need to buy Package 1 by contributing 1 XDC");
       res.redirect('/generatedContract');
       // return next();
     }
