@@ -3,23 +3,11 @@ var nodemailer = require('nodemailer');
 var ejs = require("ejs");
 var fs = require('fs');
 var transporter = nodemailer.createTransport({
-  host: 'mail-b01.cloudmailbox.in',
-  // // // host:'smtp.office365.com',
-  // port: 25,
-  // // // port:587,
-  // // secureConnection: false,
-  // auth: nodemailerAuth
-  // host: "smtp.gmail.com",
-  // port: 465,
-  // service: 'gmail',
   host: 'smtp.gmail.com',
-  // // port: 587,
-  // // secure: true, // upgrade later with STARTTLS
   port: 587,
-  //   secure: false, 
   auth: {
-    user: "srevathi036@gmail.com",
-    pass: "Revathi2@8121",
+    user: "nitish.leewayhertz@gmail.com",
+    pass: "Password123@#",
   },
 });
 
@@ -54,42 +42,35 @@ module.exports = {
   },
 
   sendVerificationMail: function (req, recipientmail, name, userhash) {
-    console.log("mailOptionsmailOptions22222211");
     var link = "http://" + req.get('host') + "/verifyAccount?resetId=" + userhash + "&email=" + recipientmail;
-    // var link = "http://" + "mycontract.co" + "/verifyAccount?resetId=" + userhash + "&email=" + recipientmail;
-
     ejs.renderFile(__dirname + '/emailerTemplates/emailVerification.ejs', {
       name: name,
       link: link
     }, (err, data) => {
-      console.log(err,"errr");
+      console.log(err);
       var mailOptions = {
-        // from: "emailverification@mycontract.co",
-        from: "srevathi036@gmail.com",
+        from: "nitish.leewayhertz@gmail.com",
         to: recipientmail,
         subject: "Email Verification",
         html: data
       };
-      console.log(mailOptions,"mailOptionsmailOptions");
       triggerEmail(mailOptions);
     });
   },
 
   sendUserVerificationMail: function (req, recipientmail, name, userhash) {
-    console.log("mailOptionsmailOptions222222");
     var link = "http://" + req.get('host') + "/verifyMail?verificationId=" + userhash;
     ejs.renderFile(__dirname + '/emailerTemplates/emailVerification.ejs', {
       name: name,
       link: link
     }, (err, data) => {
-      console.log(err,"err2");
+      console.log(err);
       var mailOptions = {
-        from: "emailverification@mycontract.co",
+        from: "nitish.leewayhertz@gmail.com",
         to: recipientmail,
         subject: "Email Verification",
         html: data
       };
-      console.log(mailOptions,"mailOptionsmailOptions222222");
       triggerEmail(mailOptions);
     });
   },
@@ -160,9 +141,8 @@ module.exports = {
 function triggerEmail(mailOptions) {
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error,"error");
+      console.log(error);
     } else {
-      console.log(info.response,"info.response")
       console.log("Email sent: " + info.response);
       return;
     }
