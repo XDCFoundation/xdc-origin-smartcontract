@@ -31,7 +31,7 @@ module.exports = {
   getStablecoinForm: async (req, res) => {
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
-    res.render('stableCoin', {
+    res.render('StableCoin', {
       user: req.user,
       message: req.flash('package_flash'),
       message2: req.flash('project_flash'),
@@ -64,7 +64,7 @@ module.exports = {
   },
   createERC20Contract: async (req, res) => {
     console.log("exist 3");
-    // console.log(req.body);
+    console.log(req, '\n   <<<<<< createERC20Contract req object');
     var Roles = await fileReader.readEjsFile(__dirname + '/ERC20contracts/Roles.sol');
     var ERC20 = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20.sol');
     var ERC20Detailed = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20Detailed.sol');
@@ -165,7 +165,7 @@ module.exports = {
         clientdata.package1 -= 1;
         clientdata.save();
       })
-      global.reqObj = {reqData: req, count: 1}
+      // global.reqObj = {reqData: req, count: 1}
       res.redirect('/generatedContract');
     });
   },
@@ -406,16 +406,17 @@ module.exports = {
   },
 
   getGeneratedContract: async function (req, res) {
-    console.log('getGeneratedContract globals', global.reqObj.count)
-    if(global.reqObj.count===1) {
-      req.session.contract = undefined
-      global.reqObj.count=2
-    }
-    else {
-      req = global.reqObj.reqData
-      console.log(req.session.contract.toString().slice(0,50), '<<<<<<< from getGeneratedContract')
-    }
-    console.log(Object.keys(req), '<<<<<<< from getGeneratedContract')
+    // console.log('getGeneratedContract globals', global.reqObj.count)
+    // if(global.reqObj.count===1) {
+    //   req.session.contract = undefined
+    //   global.reqObj.count=2
+    // }
+    // else {
+    //   req = global.reqObj.reqData
+    //   console.log(req.session.contract.toString().slice(0,50), '<<<<<<< from getGeneratedContract')
+    // }
+    console.log(req.user, ' <<<<<<< req.user from getGeneratedContract')
+    console.log(req.session, ' <<<<<<< req.session from getGeneratedContract')
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
     console.log(req.session.coinName, req.session.coinSymbol);
