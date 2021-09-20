@@ -18,10 +18,10 @@ module.exports = {
     'callbackURL'   : '/auth/facebook/callback'
 },
 
-  'nodemailerAuth': {
-    'user': 'contract@mail-b01.cloudmailbox.in',
-    'pass': 'Hak-ess@2018**',
-  },
+'nodemailerAuth': {
+  'user': 'nitish.leewayhertz@gmail.com',
+  'pass': 'Password123@#',
+},
 
   'jwtAuthKey': {
     'secret': "heyitsmeakshayhere",
