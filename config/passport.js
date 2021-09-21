@@ -291,7 +291,7 @@ module.exports = function (passport) {
   passport.use(new GitHubStrategy({
     clientID: configAuth.githubAuth.clientID,
     clientSecret: configAuth.githubAuth.clientSecret,
-    callbackURL: configAuth.githubAuth.callbackURL, //for local --> 'http://localhost:4000/auth/github/callback'
+    callbackURL: 'http://localhost:4000/auth/github/callback', //for live -->  configAuth.githubAuth.callbackURL
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {
