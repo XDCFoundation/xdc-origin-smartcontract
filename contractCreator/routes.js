@@ -52,7 +52,7 @@ async function coinNameExist(req, res, next) {
 // route middleware to check package 1
 function hasPackage1(req, res, next) {
   
-  console.log(req, "<<<<<<<<<<Here");
+  console.log(req, "<<<<<<<<<<hasPackage1 middleware");
   client.find({
     where: {
       'email': req.user.email
@@ -61,9 +61,13 @@ function hasPackage1(req, res, next) {
     result.attemptsCount = result.attemptsCount + 1;
     await result.save().then(console.log("attmpt added", result.package1));
     if (result.package1 > 0) {
+      console.log("<<<<<<<<<<In hasPackage1 middleware if block");
       return next();
     } else {
+      console.log("<<<<<<<<<<In hasPackage1 middleware else block");
       req.flash('package_flash', "You need to buy Package 1 by contributing 1 XDC");
+      delete req.session.contract
+      delete req.session.coinName
       res.redirect('/generatedContract');
       // return next();
     }
