@@ -406,15 +406,6 @@ module.exports = {
   },
 
   getGeneratedContract: async function (req, res) {
-    // console.log('getGeneratedContract globals', global.reqObj.count)
-    // if(global.reqObj.count===1) {
-    //   req.session.contract = undefined
-    //   global.reqObj.count=2
-    // }
-    // else {
-    //   req = global.reqObj.reqData
-    //   console.log(req.session.contract.toString().slice(0,50), '<<<<<<< from getGeneratedContract')
-    // }
     console.log(req.user, ' <<<<<<< req.user from getGeneratedContract')
     console.log(req.session, ' <<<<<<< req.session from getGeneratedContract')
     var projectArray = await getProjectArray(req.user.email);
