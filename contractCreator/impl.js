@@ -409,8 +409,18 @@ module.exports = {
     console.log(req.user, ' <<<<<<< req.user from getGeneratedContract')
     console.log(req.session, ' <<<<<<< req.session from getGeneratedContract')
     var projectArray = await getProjectArray(req.user.email);
+    const userClient = await client.findOne({where:{email:req.user.email}})
     var address = req.cookies['address'];
     console.log(req.session.coinName, req.session.coinSymbol);
+    if(!!!req.session.coinName && !!!req.session.coinSymbol){
+      console.log("req.session.coinName == 'undefined' || req.session.coinSymbol == 'undefined'")
+      res.render('profileDetails', {
+        user: req.user,
+        address: address,
+        ProjectConfiguration: projectArray,
+        socialClient:userClient.password===null
+      });
+    }
     res.render('deployedContract', {
       message1: "This is your token contract and this will hold all your tokens. Please do not close this tab.",
       user: req.user,
