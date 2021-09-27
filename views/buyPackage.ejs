@@ -310,7 +310,7 @@
         window.web3.eth.net.getNetworkType().then(networkType => {
           if (networkType != 'main') {
             console.log(networkType, "networkType")
-            window.alert("Please change network in your Metamask to Mainnet");
+            window.alert("Please change network in your XDCPay to Mainnet");
           }
           else {
             // getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
@@ -329,7 +329,7 @@
     }
     // Non-dapp browsers...
     else {
-      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+      console.log('Non-Ethereum browser detected. You should consider trying XDCPay!');
     }
   });
 
