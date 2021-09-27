@@ -152,7 +152,10 @@ module.exports = {
   getDeployer: async function(req, res) {
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
+    console.log('getDeployer coinName', req.query.coinName)
+    console.log('getDeployer __dirname', __dirname)
     if (req.query.coinName == null) {
+      console.error('getDeployer if block')
       res.render(path.join(__dirname, './', 'dist', 'index.ejs'), {
         user: req.user,
         address: address,
@@ -160,6 +163,7 @@ module.exports = {
       });
     } else {
       req.session.coinName = req.query.coinName;
+      console.error('getDeployer else block')
       res.redirect("/generatedCrowdsaleContract");
     }
   },
