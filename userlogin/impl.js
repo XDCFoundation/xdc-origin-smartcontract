@@ -82,7 +82,7 @@ module.exports = {
         res.render('profile.ejs', {
           req:req,
           user: req.user, // get the user out of session and pass to template
-          ProjectConfiguration: projectArray,
+          ProjectConfiguration: projectArray.reverse(),
           message: req.flash('package_flash'),
           contractMessage: req.flash('contract_flash'),
           address: address,
@@ -98,7 +98,7 @@ module.exports = {
         res.render('profile.ejs', {
           req:req,
           user: req.user, // get the user out of session and pass to template
-          ProjectConfiguration: projectArray,
+          ProjectConfiguration: projectArray.reverse(),
           message: req.flash('package_flash'),
           contractMessage: req.flash('contract_flash'),
           address: address,
