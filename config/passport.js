@@ -291,7 +291,7 @@ module.exports = function (passport) {
   passport.use(new GitHubStrategy({
     clientID: configAuth.githubAuth.clientID,
     clientSecret: configAuth.githubAuth.clientSecret,
-    callbackURL: configAuth.githubAuth.callbackURL,
+    callbackURL: 'http://localhost:4000/auth/github/callback', //for live -->  configAuth.githubAuth.callbackURL
     scope: 'user:email'
   },
     function (token, refreshToken, profile, done) {
@@ -303,7 +303,7 @@ module.exports = function (passport) {
         // try to find the user based on their google id
         client.find({
           where: {
-            'email': profile.emails[0].value
+            'github_id': profile.id
           }
         }).then(async result => {
           if (result) {
@@ -317,7 +317,7 @@ module.exports = function (passport) {
             // set all of the relevant information
             newUser.github_id = profile.id;
             newUser.name = profile.displayName;
-            newUser.email = profile.emails[0].value; // pull the first email
+            newUser.email = profile._json.email; // pull the first email
             newUser.status = true;
             newUser.package1 = 0 ;
             Promise.all([generateEthAddress()]).then(async ([createdEthAddress]) => {
