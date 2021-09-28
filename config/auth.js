@@ -19,8 +19,8 @@ module.exports = {
 },
 
 'nodemailerAuth': {
-  'user': 'nitish.leewayhertz@gmail.com',
-  'pass': 'Password123@#',
+  'user': 'mycontract@leewayhertz.com',
+  'pass': 'spicyjump25',
 },
 
   'jwtAuthKey': {

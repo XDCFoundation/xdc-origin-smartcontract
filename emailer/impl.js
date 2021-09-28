@@ -49,7 +49,7 @@ module.exports = {
     }, (err, data) => {
       console.log(err);
       var mailOptions = {
-        from: "nitish.leewayhertz@gmail.com",
+        from: "mycontract@leewayhertz.com",
         to: recipientmail,
         subject: "Email Verification",
         html: data
@@ -66,7 +66,7 @@ module.exports = {
     }, (err, data) => {
       console.log(err);
       var mailOptions = {
-        from: "nitish.leewayhertz@gmail.com",
+        from: "mycontract@leewayhertz.com",
         to: recipientmail,
         subject: "Email Verification",
         html: data
