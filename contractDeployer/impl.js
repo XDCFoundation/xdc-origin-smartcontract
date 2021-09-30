@@ -67,7 +67,6 @@ module.exports = {
     });
   },
   saveDeploymentData: async function(req, res) {
-    console.log(req.query)
     ProjectConfiguration.find({
       where: {
         'coinSymbol': req.query.coinName

@@ -63,8 +63,6 @@ module.exports = {
     });
   },
   createERC20Contract: async (req, res) => {
-    console.log("exist 3");
-    console.log(req, '\n   <<<<<< createERC20Contract req object');
     var Roles = await fileReader.readEjsFile(__dirname + '/ERC20contracts/Roles.sol');
     var ERC20 = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20.sol');
     var ERC20Detailed = await fileReader.readEjsFile(__dirname + '/ERC20contracts/ERC20Detailed.sol');
@@ -406,14 +404,11 @@ module.exports = {
   },
 
   getGeneratedContract: async function (req, res) {
-    console.log(req.user, ' <<<<<<< req.user from getGeneratedContract')
-    console.log(req.session, ' <<<<<<< req.session from getGeneratedContract')
     var projectArray = await getProjectArray(req.user.email);
     const userClient = await client.findOne({where:{email:req.user.email}})
     var address = req.cookies['address'];
     console.log(req.session.coinName, req.session.coinSymbol);
     if(!!!req.session.coinName && !!!req.session.coinSymbol){
-      console.log("req.session.coinName == 'undefined' || req.session.coinSymbol == 'undefined'")
       res.render('profileDetails', {
         user: req.user,
         address: address,
