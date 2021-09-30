@@ -58,7 +58,6 @@ module.exports = function (passport) {
     passReqToCallback: true // allows us to pass back the entire request to the callback
   },
     function (req, email, password, done) {
-      // console.log(req.body);
       process.nextTick(function () {
         // find a user whose email is the same as the forms email
         User.find({
@@ -103,7 +102,6 @@ module.exports = function (passport) {
     async function (req, email, password, done) {
       // callback with email and password from our form
       // find a user whose email is the same as the forms email
-      console.log(email);
       User.find({
         where: {
           'email': email,
@@ -141,7 +139,6 @@ module.exports = function (passport) {
           'email': email
         }
       }).then(client => {
-        // console.log(client);
 
         // if no user is found, return the message
         if (!client)
@@ -256,7 +253,6 @@ module.exports = function (passport) {
   function (token,refreshToken,profile,done) {
     // asynchronous
     process.nextTick(function () {
-      console.log("inside facebook",profile);
       // try to find the user based on their google id
       client.find({
         where: {

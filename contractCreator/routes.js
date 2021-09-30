@@ -10,10 +10,10 @@ module.exports = function (app) {
   app.get('/ERC223Contract', isLoggedIn, impl.getERC223ContractForm);
   app.get('/erc721Contract', isLoggedIn, impl.getERC721ContractForm);
   app.get('/generatedContract', isLoggedIn, impl.getGeneratedContract);
-  app.post("/createERC721", isLoggedIn, coinNameExist, hasPackage1, impl.createERC721Contract);
+  app.post('/createERC721', isLoggedIn, coinNameExist, hasPackage1, impl.createERC721Contract);
   app.post('/createERC20Contract', isLoggedIn, coinNameExist, hasPackage1, impl.createERC20Contract);
   app.post('/createERC223Contract', isLoggedIn, coinNameExist, hasPackage1, impl.createERC223Contract);
-  app.post('/createUSDCToken', impl.createUSDCToken);
+  app.post('/createUSDCToken', isLoggedIn, hasPackage1, impl.createUSDCToken);
 }
 
 // route middleware to make sure a user is logged in
@@ -52,7 +52,6 @@ async function coinNameExist(req, res, next) {
 // route middleware to check package 1
 function hasPackage1(req, res, next) {
   
-  console.log(req, "<<<<<<<<<<hasPackage1 middleware");
   client.find({
     where: {
       'email': req.user.email
@@ -61,10 +60,8 @@ function hasPackage1(req, res, next) {
     result.attemptsCount = result.attemptsCount + 1;
     await result.save().then(console.log("attmpt added", result.package1));
     if (result.package1 > 0) {
-      console.log("<<<<<<<<<<In hasPackage1 middleware if block");
       return next();
     } else {
-      console.log("<<<<<<<<<<In hasPackage1 middleware else block");
       req.flash('package_flash', "You need to buy Package 1 by contributing 1 XDC");
       delete req.session.contract
       delete req.session.coinName
