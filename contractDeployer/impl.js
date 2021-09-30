@@ -100,7 +100,6 @@ module.exports = {
     })
   },
   generatedContract: async function(req, res) {
-    console.log("On generated11111")
     var projectArray = await getProjectArray(req.user.email);
     var address = req.cookies['address'];
     ProjectConfiguration.find({
@@ -109,7 +108,6 @@ module.exports = {
       },
       attributes: ['coinName', 'ETHRate', 'tokenContractAddress', 'tokenContractCode', 'tokenByteCode', 'tokenContractHash', 'crowdsaleContractAddress', 'crowdsaleContractCode', 'crowdsaleByteCode', 'crowdsaleContractHash']
     }).then(async projectData => {
-      console.log(projectData,"projecttttttt")
       var IERC20 = await fileReader.readEjsFile(__dirname + '/../contractCreator/ERC20contracts/IERC20.sol');
       var SafeERC20 = await fileReader.readEjsFile(__dirname + '/../contractCreator/ERC20contracts/SafeERC20.sol');
       var SafeMath = await fileReader.readEjsFile(__dirname + '/../contractCreator/ERC20contracts/SafeMath.sol');
@@ -118,11 +116,9 @@ module.exports = {
         "SafeMath": SafeMath,
         "IERC20": IERC20,
       }, async (err, data) => {
-        console.log("On generated33333")
         if (err)
           console.log(err);
         projectData.crowdsaleContractCode = data;
-        console.log("On generate333333",data)
         nodemailerservice.sendContractEmail(req.user.email, data, req.session.coinName, "Crowdsale Contract");
         await projectData.save();
         res.render('deployedContract', {
@@ -154,7 +150,6 @@ module.exports = {
     console.log('getDeployer coinName', req.query.coinName)
     console.log('getDeployer __dirname', __dirname)
     if (req.query.coinName == null) {
-      console.error('getDeployer if block')
       res.render(path.join(__dirname, './', 'dist', 'index.ejs'), {
         user: req.user,
         address: address,
@@ -162,13 +157,11 @@ module.exports = {
       });
     } else {
       req.session.coinName = req.query.coinName;
-      console.error('getDeployer else block')
       res.redirect("/generatedCrowdsaleContract");
     }
   },
 
   getAutomaticDeployer: async (req, res) =>  {
-    console.log("req.query:", req.query);
     let projectData = await ProjectConfiguration.find({
       where: {
         'coinName': req.query.coinName
@@ -199,7 +192,6 @@ module.exports = {
             projectData.tokenABICode = byteCode.interface;
             privateICOhandler.sendTransaction(accountData.address, byteCode.bytecode, accountData.privateKey)
               .then(async tokenReceipt => {
-                console.log(tokenReceipt, "here 2")
                 projectData.tokenContractAddress = "0x" + tokenReceipt.contractAddress.substring(3);
                 projectData.tokenContractHash = tokenReceipt.transactionHash;
                 var IERC20 = await fileReader.readEjsFile(__dirname + '/../contractCreator/ERC20contracts/IERC20.sol');
@@ -226,7 +218,7 @@ module.exports = {
                       verifyContract(crowdsaleReceipt.contractAddress,data,{net:"mainnet",tokenName:"Crowdsale", abi:web3.eth.abi.encodeParameters(['uint256', 'uint256', 'address', 'address', 'bool'], [projectData.ETHRate, projectData.bonusRate, '0x14649976AEB09419343A54ea130b6a21Ec337772', "0x" + tokenReceipt.contractAddress.substring(3), projectData.bonusStatus]).slice(2)});
                     })
                     .catch(async e => {
-                      console.error('error in 2st deployment', e)
+                      console.error('error in 2nd deployment', e)
                       projectData.crowdsaleContractAddress = "Network error occured! Please try again";
                       projectData.tokenContractAddress = "Network error occured! Please try again";
                       await projectData.save();
