@@ -434,21 +434,22 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title buy-tokens" id="exampleModalLabel1">
-                <i class="ti-wallet"></i> Buy Tokens
+               Buy Tokens
               </h4>
 
-              <button
+               <button
                 type="button"
-                class="close"
+                class="close qr-close"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span aria-hidden="true">&times;</span>
-              </button>
+              </button> 
+             
             </div>
             <div class="modal-body">
               <div class="text-center">
-                <h5>Please send XDC to the following address:</h5>
+                <h5 class="qr-text">Please send XDC to the following address:</h5>
                 <div class="download-QRcode">
                   <img
                     src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=<%= address %>"
@@ -473,7 +474,7 @@
               </form>
               <form method="GET" action="/paypal/direct">
                 <div class="input-group mb-3">
-                  <h5 class="form-control text-center">
+                  <h5 class="form-control pay-text text-center">
                     If you have Paypal account then buy using paypal
                   </h5>
                   <div class="input-group-append">
@@ -486,7 +487,7 @@
                 </div>
               </form>
             </div>
-            <div class="modal-footer text-center">
+            <!-- <div class="modal-footer text-center">
               <button
                 type="button"
                 class="btn btn-rounded btn-info"
@@ -494,7 +495,7 @@
               >
                 Close
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

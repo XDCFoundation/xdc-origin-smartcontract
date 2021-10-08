@@ -55,20 +55,21 @@
 }
 
 .modal-title.buy-tokens {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 400;
-  color: #fff;
+  color:#2A2A2A;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   margin-left: -1rem;
   max-width: 90%;
   margin-right: 2%;
-  background-color: #206eff;
   padding: 1em 2em 0.8em 1em;
-  border-top-right-radius: 2.9em;
-  border-bottom-right-radius: 2.9em;
   box-sizing: border-box;
+  text-align: left;
+  font: normal normal medium 22px/26px Inter;
+  letter-spacing: 0px;
+  opacity: 1;
 }
 .modal-title.buy-tokens i {
   margin-right: 10px;
@@ -698,3 +699,28 @@ background: linear-gradient(to bottom, #607aea 10%,#17d9ea 100%); */
 .margin-left-8{
   margin-left:8px;
 }
+
+.qr-text{
+text-align: left;
+/* font: normal normal 600 18px/21px Inter; */
+letter-spacing: 0px;
+color: #2A2A2A;
+opacity: 1;
+font-size: 18px;
+margin-left: 56px;
+margin-bottom: 1rem;
+}
+.pay-text{
+  letter-spacing: 0px;
+  color: #2A2A2A;
+  opacity: 1;
+  font-size: 14px;
+  }
+
+  .qr-close{
+    font-size: 1.8rem;
+    color:#2A2A2A ;
+    padding: unset;
+    margin:0rem !important;
+    margin-top: 12px;
+  }
