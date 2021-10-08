@@ -77,22 +77,22 @@
               <div class="card-body">
 
 
-                <h4 class="card-title text-center">Deployed Contract Details</h4>
-                <hr size="5">
-                <div class="row mt-5">
+                <h4 class="deploy-text text-center">Deployed Contract Details</h4>
+                <!-- <hr size="5"> -->
+                <div class="row mt-5 margin-top-2">
                   <div class="col-md-12">
                     <% if(ProjectConfiguration.length >0 ) {%>
                       <div class="table-responsive">
                         <table class="table">
                           <thead class="bg-info-table">
                             <tr>
-                              <th>Network Type</th>
-                              <th>Coin Name</th>
-                              <th>Token Contract Address</th>
-                              <th>Token Contract Tx Hash</th>
-                              <th>Crowdsale Contract Address</th>
-                              <th>CrowdSale Contract Tx Hash</th>
-                              <th>Project Owner Key</th>
+                              <th class="th-text">Network Type</th>
+                              <th class="th-text">Coin Name</th>
+                              <th class="th-text">Token Contract Address</th>
+                              <th class="th-text">Token Contract Tx Hash</th>
+                              <th class="th-text">Crowdsale Contract Address</th>
+                              <th class="th-text">CrowdSale Contract Tx Hash</th>
+                              <th class="th-text">Project Owner Key</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -156,7 +156,7 @@
                                           <% } else { %>
                                             <td colspan="2"> Not deployed yet</td>
                                               <% } %>
-                                              <td><button onclick="setCurrProjectId('<%= ProjectConfiguration.coinName %>')"  class="btn btn-primary btn-export-key" data-target="#exportPrivKeyModal" data-toggle="modal">Export Private Key</button></td>                                        
+                                              <td><button onclick="setCurrProjectId('<%= ProjectConfiguration.coinName %>')"  class="btn btn-private btn-export-key" data-target="#exportPrivKeyModal" data-toggle="modal">Export Private Key</button></td>                                        
                               </tr>
                               <% }) %>
                           </tbody>
