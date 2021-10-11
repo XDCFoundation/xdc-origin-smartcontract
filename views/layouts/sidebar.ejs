@@ -92,6 +92,7 @@
             </a>
             <!-- End Logo -->
 
+<<<<<<< HEAD
             <!-- Toggle which is visible on mobile only -->
             <a
               class="topbartoggler d-block d-md-none waves-effect waves-light"
@@ -104,6 +105,37 @@
               ><i class="ti-more"></i
             ></a>
           </div>
+=======
+  <!-- Main wrapper -->
+  <div id="main-wrapper">
+
+    <!-- Topbar header -->
+    <header class="topbar remove-shadow">
+      <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <div class="navbar-header d-flex nav-head">
+          <!-- This is for the sidebar toggle which is visible on mobile only -->
+          <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+              class="ti-menu ti-close"></i></a>
+
+          <!-- Logo -->
+          <a class="navbar-brand justify-content-center" href="/dashboard">
+            <!-- Logo icon -->
+            <b class="logo-icon">
+              <!-- Dark Logo icon -->
+              <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+              <!-- Light Logo icon -->
+              <img src="assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+            </b>
+            <!--End Logo icon -->
+            <!-- Logo text -->
+            <span class="logo-text">
+              <!-- dark Logo text -->
+              <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+              <!-- Light Logo text -->
+              <img src="assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+            </span>
+          </a>
+>>>>>>> 1965bde54018089f52df32921945242dded9255c
           <!-- End Logo -->
 
           <div class="navbar-collapse collapse" id="navbarSupportedContent">
@@ -137,6 +169,7 @@
               <!-- Balance -->
             </ul>
 
+<<<<<<< HEAD
             <!-- Right side toggle and nav items -->
             <ul class="navbar-nav float-right">
               <!-- User profile and search -->
@@ -192,6 +225,54 @@
                     <div class="m-l-10">
                       <p class="m-b-0"><%= user.email %></p>
                     </div>
+=======
+          <!-- Toggle which is visible on mobile only -->
+          <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+            data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
+        </div>
+        <!-- End Logo -->
+
+        <div class="navbar-collapse collapse fix-height" id="navbarSupportedContent">
+
+          <!-- toggle and nav items -->
+          <ul class="navbar-nav float-left mr-auto pl-2 align-items-center">
+            <li class="">
+              <div class="header-price-box header-price">
+                <img src="assets/images/icons/xdc.png"> XDC Balance: <span id="xdce">0000</span>
+              </div>
+            </li>
+            <li class="">
+              <div class="header-price-box header-price ethBalance">
+                <img src="assets/images/icons/eth.png"> ETH Balance: <span id="eth">0000</span>
+              </div>
+            </li>
+            <li class="">
+              <div class="header-buy-tokens">
+                <button type="button" class="btn head-btn mt-0" data-toggle="modal" data-target="#exampleModal"
+                  data-whatever="@getbootstrap"><strong>Buy</strong></button>
+              </div>
+            </li>
+            <!-- Balance -->
+          </ul>
+
+          <!-- Right side toggle and nav items -->
+          <ul class="navbar-nav float-right">
+
+            <!-- User profile and search -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/users/1.jpg"
+                  alt="user" class="rounded-circle" width="31"></a>
+              <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                <span class="with-arrow"><span class="bg-primary"></span></span>
+                <div class="d-flex no-block align-items-center p-15 bg-primary text-white m-b-10">
+                  <div class=""><img src="assets/images/users/1.jpg" alt="user" class="img-circle" width="60"></div>
+                  <div class="m-l-10">
+                    <p class=" m-b-0">
+                      <%= user.email %>
+                    </p>
+>>>>>>> 1965bde54018089f52df32921945242dded9255c
                   </div>
                   <a class="dropdown-item" href="/profileDetails"
                     ><i class="mdi mdi-account m-r-5 m-l-5"></i> My Profile</a
