@@ -178,7 +178,6 @@
       window.web3 = new Web3(web3.currentProvider)
       // window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/YOUR-PROJECT-ID'))
 
-      console.log("web3.currentProvider ==============>>>>>>>>", web3.currentProvider)
       $("#metamaskButton").get(0).style.display = '';
       $('#bancor-wc-id-1').hide();
     } else {
@@ -243,7 +242,6 @@
       url: '/api/getPaymentToken',
       data: JSON.stringify({ "address": address }),
       success: function (data) {
-        // console.log('in getPaymentToken Success>>>>')
         sendTransaction();
       },
       contentType: "application/json",
@@ -252,23 +250,24 @@
   }
 
   async function sendTransaction() {
-    // console.log('in sendTransaction>>>>')
+
     var contractInstance = new window.web3.eth.Contract(xdce_abi, xdce_address);
     // const priceUsd = (await $.get("https://blockdegree.org/api/wrapCoinMarketCap")).data;
     // const priceXdc = Math.floor(50/priceUsd)
 
+
     const priceUsd = 1;
     const priceXdc = 1;
-    // console.log(window.web3.currentProvider.publicConfigStore.getState().selectedAddress,"address")
     var transaction = {
       "from": window.web3.currentProvider.selectedAddress,
       "to": "0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2",
       "value": "0x0",
-      "gas": 105015,
+      "gas": 100014,
+      "gasPrice": 43702000000000,
       "data": contractInstance.methods.transfer("0x920e938a80fa1669b608166741eeb01de6c57402", `${priceXdc}`).encodeABI()
     };
+
     window.web3.eth.sendTransaction(transaction, (err, data) => {
-      // console.log('in sendTransaction web3>>>>', window.web3.currentProvider.selectedAddress, contractInstance)
       if (err) {
         console.log("Failed");
       } else {
@@ -316,7 +315,6 @@
     // Legacy dapp browsers...
     else if (window.web3) {
       window.web3 = new Web3(web3.currentProvider);
-      console.log("web3.currentProvider=================>>>>>>> 328", web3.currentProvider)
       // Acccounts always exposed
       web3.eth.sendTransaction({/* ... */ });
     }
