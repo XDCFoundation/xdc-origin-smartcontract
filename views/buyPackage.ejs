@@ -193,8 +193,6 @@
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
       //   if (networkType != 'main') {
-    // window.web3.currentProvider.selectedAddress = "0xf040832df413db4e1b79ddf27e3b7fedc864247f";
-          console.log("window.web3.eth.accounts[0] =======", window.web3.eth.accounts[0]);
 
           getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
         // } else {
