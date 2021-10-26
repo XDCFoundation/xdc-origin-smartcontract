@@ -185,17 +185,23 @@
     }
   }
   function buyMetamask() {
-    window.web3.eth.net.getNetworkType().then(networkType => {
+    console.log("buyMetamask buyMetamask buyMetamask buyMetamask buyMetamask");
+    // window.web3.eth.net.getNetworkType();
+    // console.log("window.web3.eth.net.getNetworkType() ============", await window.web3.eth.net.getNetworkType());
+    console.log("window.web3.currentProvider ==============", window.web3.currentProvider);
+    // window.web3.eth.net.getNetworkType().then(networkType => {
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
-        if (networkType != 'main') {
+      //   if (networkType != 'main') {
+    // window.web3.currentProvider.selectedAddress = "0xf040832df413db4e1b79ddf27e3b7fedc864247f";
+          console.log("window.web3.eth.accounts[0] =======", window.web3.eth.accounts[0]);
 
-          getPaymentToken(window.web3.currentProvider.selectedAddress, networkType);
-        } else {
-          getPaymentToken(window.web3.currentProvider.selectedAddress);
-        }
+          getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
+        // } else {
+        //   getPaymentToken(window.web3.currentProvider.selectedAddress);
+        // }
       });
-    })
+    //})
   }
 
   function sendPaymentInfo() {
@@ -297,7 +303,8 @@
       window.web3 = new Web3(ethereum);
       try {
         // Request account access if needed
-        await ethereum.enable();
+        await window.ethereum.enable();
+        console.log("window.web3.currentProvider.selectedAddress ==============", window.web3.currentProvider.selectedAddress);
         window.web3.eth.net.getNetworkType().then(networkType => {
           if (networkType != 'main') {
             console.log(networkType, "networkType")
