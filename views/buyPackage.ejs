@@ -188,17 +188,39 @@
     console.log("buyMetamask buyMetamask buyMetamask buyMetamask buyMetamask");
     // window.web3.eth.net.getNetworkType();
     // console.log("window.web3.eth.net.getNetworkType() ============", await window.web3.eth.net.getNetworkType());
-    console.log("window.web3.currentProvider ==============", window.web3.currentProvider);
+    // console.log("window.web3.currentProvider ==============", window.web3.currentProvider);
     // window.web3.eth.net.getNetworkType().then(networkType => {
+    // console.log("window.web3 ==========", window.web3);
+    // if (window.ethereum) {
+    //   window.web3 = new Web3(ethereum);
+    //   console.log("window.web3 ethereum", window.web3);
+    // }
+    // else if (window.web3) {
+    //   window.web3 = new Web3(web3.currentProvider);
+    //   console.log("window.web3", window.web3);
+    //   // Acccounts always exposed
+    //   web3.eth.sendTransaction({/* ... */ });
+    // }
+    // if(window.web3.currentProvider.selectedAddress !== null) {
+    // console.log("window.ethereum.enable() =====", await window.ethereum.enable())
+    // console.log("window.web3.currentProvider.selectedAddress ====", window.web3.currentProvider.selectedAddress)
+    console.log("window.ethereum.isMetaMask=============", window.web3.currentProvider.chainId);
+    console.log("window.ethereum.isConnected==============", window.ethereum.isConnected());
+    if(!window.web3.currentProvider.chainId){
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
-      //   if (networkType != 'main') {
+        //   if (networkType != 'main') {
 
-          getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
+        getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
         // } else {
         //   getPaymentToken(window.web3.currentProvider.selectedAddress);
         // }
       });
+    }
+    else{
+      window.alert("Please disable Metamask to enable XDCPay");
+    }
+    //}
     //})
   }
 
@@ -301,17 +323,33 @@
       window.web3 = new Web3(ethereum);
       try {
         // Request account access if needed
-        await window.ethereum.enable();
-        console.log("window.web3.currentProvider.selectedAddress ==============", window.web3.currentProvider.selectedAddress);
-        window.web3.eth.net.getNetworkType().then(networkType => {
-          if (networkType != 'main') {
-            console.log(networkType, "networkType")
-            window.alert("Please change network in your XDCPay to Mainnet");
-          }
-          else {
-            // getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
-          }
-        });
+        // await ethereum.enable();
+        // console.log("window.web3.currentProvider.selectedAddress ==============", window.web3.currentProvider.selectedAddress);
+        // window.web3.eth.net.getNetworkType().then(networkType => {
+        //   if (networkType != 'main') {
+        //     console.log(networkType, "networkType")
+        //     window.alert("Please change network in your XDCPay to Mainnet");
+        //   }
+        //   else {
+        //     // getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
+        //   }
+        // });
+        // window.web3 = new Web3(web3.currentProvider)
+
+
+        // if(window.web3.currentProvider.selectedAddress !== null){
+        //   window.ethereum.enable().then(add => {
+        //     console.log("add ================", add);
+        //     window.web3.currentProvider.selectedAddress = add[0]
+        //     //   if (networkType != 'main') {
+        //
+        //     getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
+        //     // } else {
+        //     //   getPaymentToken(window.web3.currentProvider.selectedAddress);
+        //     // }
+        //   });
+        // }
+
         // web3.eth.sendTransaction({/* ... */ });
       } catch (error) {
         // User denied account access...
