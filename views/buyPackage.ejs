@@ -171,7 +171,11 @@
     e.preventDefault();
   });
 </script>
+
+<script src="../public/js/detect-ethereum-provider-bundle.js"></script>
+
 <script>
+  // let detectEthereumProvider = require('@metamask/detect-provider');
   checkMetamask();
   function checkMetamask() {
     if (typeof web3 !== 'undefined') {
@@ -206,6 +210,7 @@
     // console.log("window.web3.currentProvider.selectedAddress ====", window.web3.currentProvider.selectedAddress)
     console.log("window.ethereum.isMetaMask=============", window.web3.currentProvider.chainId);
     console.log("window.ethereum.isConnected==============", window.ethereum.isConnected());
+    // console.log("window.ethereum.detectEthereumProvider(false) ===========", ethereumProviders());
     if(!window.web3.currentProvider.chainId){
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]

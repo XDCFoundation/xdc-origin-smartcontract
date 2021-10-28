@@ -16,6 +16,7 @@
     "bitcoin-transaction": "^1.1.1",
     "bitcoinjs-lib": "^4.0.2",
     "bluebird": "^3.5.2",
+    "browserify": "^17.0.0",
     "coinpayments": "^2.0.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
