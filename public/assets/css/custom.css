@@ -788,6 +788,6 @@ margin-bottom: 1rem;
 
 /* =========================== contract without code style ends ====================== */
 
-.example {
+.email-container {
   width: min-content; min-width: 100%;
 }

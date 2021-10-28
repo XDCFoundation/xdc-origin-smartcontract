@@ -56,8 +56,8 @@
                               <a data-whatever="@getbootstrap" class="btn btn-rounded btn-lg btn-info mr-1"
                                 onclick="buyMetamask()">Buy
                                 Using XDCPay</a><br><br>
-                              <h5>If you have Paypal account then buy using paypal </h5>
-                              <a class="btn btn-rounded btn-lg btn-info mr-1" href="/paypal/direct"> Paypal</a>
+<!--                              <h5>If you have Paypal account then buy using paypal </h5>-->
+<!--                              <a class="btn btn-rounded btn-lg btn-info mr-1" href="/paypal/direct"> Paypal</a>-->
                             </div>
                           </div>
                         </div>
@@ -140,6 +140,7 @@
 
         </div>
       </div>
+    </div>
       <!-- / Payment Confirmation modal End -->
 </body>
 <script>
@@ -171,14 +172,17 @@
     e.preventDefault();
   });
 </script>
+
+<!--<script type="text/javascript" src="../public/js/detect-ethereum-provider-bundle.js"></script>-->
+
 <script>
+  // let detectEthereumProvider = require('@metamask/detect-provider');
   checkMetamask();
   function checkMetamask() {
     if (typeof web3 !== 'undefined') {
       window.web3 = new Web3(web3.currentProvider)
       // window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/YOUR-PROJECT-ID'))
 
-      console.log("web3.currentProvider ==============>>>>>>>>", web3.currentProvider)
       $("#metamaskButton").get(0).style.display = '';
       $('#bancor-wc-id-1').hide();
     } else {
@@ -186,17 +190,45 @@
     }
   }
   function buyMetamask() {
-    window.web3.eth.net.getNetworkType().then(networkType => {
+    console.log("buyMetamask buyMetamask buyMetamask buyMetamask buyMetamask");
+    // window.web3.eth.net.getNetworkType();
+    // console.log("window.web3.eth.net.getNetworkType() ============", await window.web3.eth.net.getNetworkType());
+    // console.log("window.web3.currentProvider ==============", window.web3.currentProvider);
+    // window.web3.eth.net.getNetworkType().then(networkType => {
+    // console.log("window.web3 ==========", window.web3);
+    // if (window.ethereum) {
+    //   window.web3 = new Web3(ethereum);
+    //   console.log("window.web3 ethereum", window.web3);
+    // }
+    // else if (window.web3) {
+    //   window.web3 = new Web3(web3.currentProvider);
+    //   console.log("window.web3", window.web3);
+    //   // Acccounts always exposed
+    //   web3.eth.sendTransaction({/* ... */ });
+    // }
+    // if(window.web3.currentProvider.selectedAddress !== null) {
+
+
+    // console.log("window.ethereum.isMetaMask=============", window.web3.currentProvider.chainId);
+    // console.log("window.ethereum.isConnected==============", window.ethereum.isConnected());
+    // console.log("window.ethereum.detectEthereumProvider(false) ===========", ethereumProviders());
+
+    // if(!window.web3.currentProvider.chainId){
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
-        if (networkType != 'main') {
+        //   if (networkType != 'main') {
 
-          getPaymentToken(window.web3.currentProvider.selectedAddress, networkType);
-        } else {
-          getPaymentToken(window.web3.currentProvider.selectedAddress);
-        }
+        getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
+        // } else {
+        //   getPaymentToken(window.web3.currentProvider.selectedAddress);
+        // }
       });
-    })
+    // }
+    // else{
+    //   window.alert("Please disable Metamask to enable XDCPay");
+    // }
+    //}
+    //})
   }
 
   function sendPaymentInfo() {
@@ -243,7 +275,6 @@
       url: '/api/getPaymentToken',
       data: JSON.stringify({ "address": address }),
       success: function (data) {
-        // console.log('in getPaymentToken Success>>>>')
         sendTransaction();
       },
       contentType: "application/json",
@@ -252,23 +283,24 @@
   }
 
   async function sendTransaction() {
-    // console.log('in sendTransaction>>>>')
+
     var contractInstance = new window.web3.eth.Contract(xdce_abi, xdce_address);
     // const priceUsd = (await $.get("https://blockdegree.org/api/wrapCoinMarketCap")).data;
     // const priceXdc = Math.floor(50/priceUsd)
 
+
     const priceUsd = 1;
     const priceXdc = 1;
-    // console.log(window.web3.currentProvider.publicConfigStore.getState().selectedAddress,"address")
     var transaction = {
       "from": window.web3.currentProvider.selectedAddress,
       "to": "0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2",
       "value": "0x0",
-      "gas": 105015,
+      "gas": 100014,
+      "gasPrice": 43702000000000,
       "data": contractInstance.methods.transfer("0x920e938a80fa1669b608166741eeb01de6c57402", `${priceXdc}`).encodeABI()
     };
+
     window.web3.eth.sendTransaction(transaction, (err, data) => {
-      // console.log('in sendTransaction web3>>>>', window.web3.currentProvider.selectedAddress, contractInstance)
       if (err) {
         console.log("Failed");
       } else {
@@ -298,16 +330,33 @@
       window.web3 = new Web3(ethereum);
       try {
         // Request account access if needed
-        await ethereum.enable();
-        window.web3.eth.net.getNetworkType().then(networkType => {
-          if (networkType != 'main') {
-            console.log(networkType, "networkType")
-            window.alert("Please change network in your XDCPay to Mainnet");
-          }
-          else {
-            // getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
-          }
-        });
+        // await ethereum.enable();
+        // console.log("window.web3.currentProvider.selectedAddress ==============", window.web3.currentProvider.selectedAddress);
+        // window.web3.eth.net.getNetworkType().then(networkType => {
+        //   if (networkType != 'main') {
+        //     console.log(networkType, "networkType")
+        //     window.alert("Please change network in your XDCPay to Mainnet");
+        //   }
+        //   else {
+        //     // getPaymentToken(window.web3.currentProvider.publicConfigStore.getState().selectedAddress);
+        //   }
+        // });
+        // window.web3 = new Web3(web3.currentProvider)
+
+
+        // if(window.web3.currentProvider.selectedAddress !== null){
+        //   window.ethereum.enable().then(add => {
+        //     console.log("add ================", add);
+        //     window.web3.currentProvider.selectedAddress = add[0]
+        //     //   if (networkType != 'main') {
+        //
+        //     getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
+        //     // } else {
+        //     //   getPaymentToken(window.web3.currentProvider.selectedAddress);
+        //     // }
+        //   });
+        // }
+
         // web3.eth.sendTransaction({/* ... */ });
       } catch (error) {
         // User denied account access...
@@ -316,7 +365,6 @@
     // Legacy dapp browsers...
     else if (window.web3) {
       window.web3 = new Web3(web3.currentProvider);
-      console.log("web3.currentProvider=================>>>>>>> 328", web3.currentProvider)
       // Acccounts always exposed
       web3.eth.sendTransaction({/* ... */ });
     }
