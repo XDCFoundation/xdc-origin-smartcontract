@@ -140,6 +140,7 @@
 
         </div>
       </div>
+    </div>
       <!-- / Payment Confirmation modal End -->
 </body>
 <script>
@@ -172,7 +173,7 @@
   });
 </script>
 
-<script src="../public/js/detect-ethereum-provider-bundle.js"></script>
+<!--<script type="text/javascript" src="../public/js/detect-ethereum-provider-bundle.js"></script>-->
 
 <script>
   // let detectEthereumProvider = require('@metamask/detect-provider');
@@ -206,12 +207,13 @@
     //   web3.eth.sendTransaction({/* ... */ });
     // }
     // if(window.web3.currentProvider.selectedAddress !== null) {
-    // console.log("window.ethereum.enable() =====", await window.ethereum.enable())
-    // console.log("window.web3.currentProvider.selectedAddress ====", window.web3.currentProvider.selectedAddress)
-    console.log("window.ethereum.isMetaMask=============", window.web3.currentProvider.chainId);
-    console.log("window.ethereum.isConnected==============", window.ethereum.isConnected());
+
+
+    // console.log("window.ethereum.isMetaMask=============", window.web3.currentProvider.chainId);
+    // console.log("window.ethereum.isConnected==============", window.ethereum.isConnected());
     // console.log("window.ethereum.detectEthereumProvider(false) ===========", ethereumProviders());
-    if(!window.web3.currentProvider.chainId){
+
+    // if(!window.web3.currentProvider.chainId){
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
         //   if (networkType != 'main') {
@@ -221,10 +223,10 @@
         //   getPaymentToken(window.web3.currentProvider.selectedAddress);
         // }
       });
-    }
-    else{
-      window.alert("Please disable Metamask to enable XDCPay");
-    }
+    // }
+    // else{
+    //   window.alert("Please disable Metamask to enable XDCPay");
+    // }
     //}
     //})
   }

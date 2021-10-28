@@ -63,9 +63,15 @@ function detectEthereumProvider({ mustBeMetaMask = false, silent = false, timeou
 module.exports = detectEthereumProvider;
 
 },{}],2:[function(require,module,exports){
-const detectEthereumProvider = require('@metamask/detect-provider');
-
-async function ethereumProviders(){
+async function ethereumProviders() {
+    const detectEthereumProvider = require('@metamask/detect-provider');
+    window.ethereum.enable();
     return await detectEthereumProvider();
 }
+
+console.log('detectEthereumProvider is starteeeeeeeeed');
+
+// function fn(){
+//     return "Function fn is working fine!!!!!!";
+// }
 },{"@metamask/detect-provider":1}]},{},[2]);
