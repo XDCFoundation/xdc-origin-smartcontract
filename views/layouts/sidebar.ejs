@@ -473,7 +473,7 @@
       <% if (typeof req != 'undefined') { %> <%- req.toastr.render() %> <% } %>
       <!-- footer -->
       <footer class="footer text-center">
-        Copyright © 2020 MyContract. All rights reserved.
+        Copyright © 2021 MyContract. All rights reserved.
       </footer>
       <!-- End footer -->
       <!-- / ICO Plarform Coming Soon modal -->
@@ -500,6 +500,7 @@
         var globalEthBalance;
         function checkBalances() {
           $.get("/getBalances", function (result) {
+            console.log("checkBalances result[\"XDCE\"] ===", result);
             balance = result["XDCE"];
             ethBalance = result["ETH"];
             $("#xdce").text(balance);
