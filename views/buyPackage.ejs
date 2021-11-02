@@ -190,7 +190,6 @@
     }
   }
   function buyMetamask() {
-    console.log("buyMetamask buyMetamask buyMetamask buyMetamask buyMetamask");
     // window.web3.eth.net.getNetworkType();
     // console.log("window.web3.eth.net.getNetworkType() ============", await window.web3.eth.net.getNetworkType());
     // console.log("window.web3.currentProvider ==============", window.web3.currentProvider);
@@ -215,7 +214,7 @@
     // console.log("window.ethereum.detectEthereumProvider(false) ===========", ethereumProviders());
 
 
-    // if(!window.web3.currentProvider.chainId){
+    if(!window.web3.currentProvider.chainId){
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
         //   if (networkType != 'main') {
@@ -225,18 +224,19 @@
         //   getPaymentToken(window.web3.currentProvider.selectedAddress);
         // }
       });
-    // }
-    // else{
-    //   window.alert("Please disable Metamask to enable XDCPay");
-    // }
+    }
+    else{
+      window.alert("Please disable Metamask to enable XDCPay");
+    }
     //}
     //})
   }
 
-  function sendPaymentInfo() {
+  function sendPaymentInfo(networkType) {
     $.ajax({
       type: 'POST',
       url: '/api/sendPaymentInfo',
+      data: JSON.stringify({networkType: networkType}),
       success: function (data) {
         var values = {}
         if (window.sessionStorage.getItem("tokenName")) {
@@ -302,20 +302,28 @@
       "data": contractInstance.methods.transfer("0x920e938a80fa1669b608166741eeb01de6c57402", `${priceXdc}`).encodeABI()
     };
 
-
-    // window.web3.eth.getAccounts((data) => {
-    //   console.log("getAccounts =========", data);
-    // })
+    let networkType = "";
 
     await window.web3.eth.sendTransaction(transaction, (err, data) => {
       if (err) {
         console.log("Failed");
       } else {
-        window.web3.eth.getTransaction(data, function (error, result) {
-          console.log("result========================", result);
-          console.log("error========================", error);
+        window.web3.eth.net.getId().then(netId => {
+          console.log("networkType ==========", netId);
+          if(netId === 50){
+            console.log("MAINNET");
+            networkType = "Mainnet";
+            sendPaymentInfo(networkType);
+          }
+          else if(netId === 51){
+            console.log("APOTHEM");
+            networkType = "Apothem";
+            sendPaymentInfo(networkType);
+          }
+          else{
+            sendPaymentInfo(networkType);
+          }
         });
-        sendPaymentInfo();
         console.log("in sendTransaction Successful");
       }
     });

@@ -70,6 +70,11 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       defaultValue: 0
     },
+    packageNetworkTypeArray:
+    {
+      type:DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: []
+    },
     kyc_verified:
     {
       type:DataTypes.ENUM,

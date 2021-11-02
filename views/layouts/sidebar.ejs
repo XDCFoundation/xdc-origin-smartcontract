@@ -528,9 +528,9 @@
             window.location.href = "/deployer";
           } else {
             console.log("in here ");
-            if (isMainnet == "1") {
+            if (isMainnet === "1") {
               console.log("in here 1");
-              if (globalEthBalance == 0.5) {
+              if (globalEthBalance === 0.5) {
                 window.location.href =
                   "/api/automaticDeployment?network=ethereum&coinName=" +
                   coinName;
@@ -538,11 +538,11 @@
                 $("#networkModal").modal("hide");
                 $("#mainnetBalanceError").modal("show");
               }
-            } else if (isMainnet == "2") {
+            } else if (isMainnet === "2") {
               console.log("in here 2");
               window.location.href =
                 "/api/automaticDeployment?network=testnet&coinName=" + coinName;
-            } else if (isMainnet == "3") {
+            } else if (isMainnet === "3") {
               console.log("in here 3");
               window.location.href =
                 "/api/automaticDeployment?network=mainnet&coinName=" + coinName;
