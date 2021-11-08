@@ -226,7 +226,35 @@
       });
     }
     else{
-      window.alert("Please disable Metamask to enable XDCPay");
+      // window.alert("Please disable Metamask to enable XDCPay");
+      const accounts = web3.eth.accounts;
+      console.log("accounts =-=-=-=-=-=-=-=-", accounts);
+      const state = accounts.givenProvider.publicConfigStore._state;
+      console.log("state =-=-=-=-=-=-=-=-", state);
+      // console.log("window.ethereum =========", window.ethereum);
+      window.ethereum.isMetaMask = false;
+      window.ethereum.networkVersion = state.networkVersion;
+      window.ethereum.selectedAddress = state.selectedAddress;
+      window.ethereum._metamask = null;
+      window.ethereum.chainId = null;
+      console.log("window.ethereum =========", window.ethereum);
+      console.log("window.web3 =========", window.web3);
+      console.log("window.web3.eth =========", window.web3.eth);
+
+
+
+      window.ethereum.enable().then(add => {
+        console.log('window.ethereum ====-------======-----', window.ethereum);
+        window.web3.currentProvider.selectedAddress = state.selectedAddress
+        //   if (networkType != 'main') {
+
+        // getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
+        // } else {
+        //   getPaymentToken(window.web3.currentProvider.selectedAddress);
+        // }
+      });
+
+
     }
     //}
     //})
