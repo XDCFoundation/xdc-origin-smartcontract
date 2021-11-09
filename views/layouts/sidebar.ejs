@@ -473,7 +473,7 @@
       <% if (typeof req != 'undefined') { %> <%- req.toastr.render() %> <% } %>
       <!-- footer -->
       <footer class="footer text-center">
-        Copyright © 2020 MyContract. All rights reserved.
+        Copyright © 2021 MyContract. All rights reserved.
       </footer>
       <!-- End footer -->
       <!-- / ICO Plarform Coming Soon modal -->
@@ -500,6 +500,7 @@
         var globalEthBalance;
         function checkBalances() {
           $.get("/getBalances", function (result) {
+            console.log("checkBalances result[\"XDCE\"] ===", result);
             balance = result["XDCE"];
             ethBalance = result["ETH"];
             $("#xdce").text(balance);
@@ -527,9 +528,9 @@
             window.location.href = "/deployer";
           } else {
             console.log("in here ");
-            if (isMainnet == "1") {
+            if (isMainnet === "1") {
               console.log("in here 1");
-              if (globalEthBalance == 0.5) {
+              if (globalEthBalance === 0.5) {
                 window.location.href =
                   "/api/automaticDeployment?network=ethereum&coinName=" +
                   coinName;
@@ -537,11 +538,11 @@
                 $("#networkModal").modal("hide");
                 $("#mainnetBalanceError").modal("show");
               }
-            } else if (isMainnet == "2") {
+            } else if (isMainnet === "2") {
               console.log("in here 2");
               window.location.href =
                 "/api/automaticDeployment?network=testnet&coinName=" + coinName;
-            } else if (isMainnet == "3") {
+            } else if (isMainnet === "3") {
               console.log("in here 3");
               window.location.href =
                 "/api/automaticDeployment?network=mainnet&coinName=" + coinName;

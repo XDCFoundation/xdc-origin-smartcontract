@@ -190,7 +190,6 @@
     }
   }
   function buyMetamask() {
-    console.log("buyMetamask buyMetamask buyMetamask buyMetamask buyMetamask");
     // window.web3.eth.net.getNetworkType();
     // console.log("window.web3.eth.net.getNetworkType() ============", await window.web3.eth.net.getNetworkType());
     // console.log("window.web3.currentProvider ==============", window.web3.currentProvider);
@@ -209,32 +208,48 @@
     // if(window.web3.currentProvider.selectedAddress !== null) {
 
 
-    // console.log("window.ethereum.isMetaMask=============", window.web3.currentProvider.chainId);
-    // console.log("window.ethereum.isConnected==============", window.ethereum.isConnected());
-    // console.log("window.ethereum.detectEthereumProvider(false) ===========", ethereumProviders());
 
-    // if(!window.web3.currentProvider.chainId){
+    // console.log("window.web3 ===========", window.web3);
+    // console.log("window.ethereum ===========", window.ethereum);
+
+    if(!window.web3.currentProvider.chainId){
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
-        //   if (networkType != 'main') {
-
         getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
-        // } else {
-        //   getPaymentToken(window.web3.currentProvider.selectedAddress);
-        // }
       });
-    // }
-    // else{
-    //   window.alert("Please disable Metamask to enable XDCPay");
-    // }
+    }
+    else{
+      if(!window.web3.givenProvider.publicConfigStore || !window.web3.givenProvider.publicConfigStore._state){
+        window.alert("Please enable XDCPay")
+      }
+
+      if(!window.web3.currentProvider.selectedAddress){
+        window.alert("Please login to your XDCPay wallet to proceed")
+      }
+
+      const state = window.web3.givenProvider.publicConfigStore._state;
+
+      window.web3.currentProvider = window.web3.givenProvider;
+      window.ethereum = window.web3.givenProvider;
+      window.ethereum.selectedAddress = state.selectedAddress;
+
+      window.ethereum.enable().then(add => {
+        window.web3.currentProvider.selectedAddress = add[0]
+        getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
+
+      });
+
+
+    }
     //}
     //})
   }
 
-  function sendPaymentInfo() {
+  function sendPaymentInfo(networkType) {
     $.ajax({
       type: 'POST',
       url: '/api/sendPaymentInfo',
+      data: JSON.stringify({networkType: networkType}),
       success: function (data) {
         var values = {}
         if (window.sessionStorage.getItem("tokenName")) {
@@ -291,6 +306,7 @@
 
     const priceUsd = 1;
     const priceXdc = 1;
+
     var transaction = {
       "from": window.web3.currentProvider.selectedAddress,
       "to": "0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2",
@@ -300,11 +316,28 @@
       "data": contractInstance.methods.transfer("0x920e938a80fa1669b608166741eeb01de6c57402", `${priceXdc}`).encodeABI()
     };
 
-    window.web3.eth.sendTransaction(transaction, (err, data) => {
+    let networkType = "";
+
+    await window.web3.eth.sendTransaction(transaction, (err, data) => {
       if (err) {
         console.log("Failed");
       } else {
-        sendPaymentInfo();
+        window.web3.eth.net.getId().then(netId => {
+          // console.log("networkType ==========", netId);
+          if(netId === 50){
+            console.log("MAINNET");
+            networkType = "Mainnet";
+            sendPaymentInfo(networkType);
+          }
+          else if(netId === 51){
+            console.log("APOTHEM");
+            networkType = "Apothem";
+            sendPaymentInfo(networkType);
+          }
+          else{
+            sendPaymentInfo(networkType);
+          }
+        });
         console.log("in sendTransaction Successful");
       }
     });
