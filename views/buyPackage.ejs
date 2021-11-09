@@ -206,52 +206,37 @@
     //   web3.eth.sendTransaction({/* ... */ });
     // }
     // if(window.web3.currentProvider.selectedAddress !== null) {
-    // console.log("window.ethereum.enable() =====", await window.ethereum.enable())
-    // console.log("window.web3.currentProvider.selectedAddress ====", window.web3.currentProvider.selectedAddress)
 
-    // console.log("window.ethereum.isMetaMask=============", window.web3.currentProvider.chainId);
-    // console.log("window.ethereum.isConnected==============", window.ethereum.isConnected());
-    // console.log("window.ethereum.detectEthereumProvider(false) ===========", ethereumProviders());
 
+
+    // console.log("window.web3 ===========", window.web3);
+    // console.log("window.ethereum ===========", window.ethereum);
 
     if(!window.web3.currentProvider.chainId){
       window.ethereum.enable().then(add => {
         window.web3.currentProvider.selectedAddress = add[0]
-        //   if (networkType != 'main') {
-
         getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
-        // } else {
-        //   getPaymentToken(window.web3.currentProvider.selectedAddress);
-        // }
       });
     }
     else{
-      // window.alert("Please disable Metamask to enable XDCPay");
-      const accounts = web3.eth.accounts;
-      console.log("accounts =-=-=-=-=-=-=-=-", accounts);
-      const state = accounts.givenProvider.publicConfigStore._state;
-      console.log("state =-=-=-=-=-=-=-=-", state);
-      // console.log("window.ethereum =========", window.ethereum);
-      window.ethereum.isMetaMask = false;
-      window.ethereum.networkVersion = state.networkVersion;
+      if(!window.web3.givenProvider.publicConfigStore || !window.web3.givenProvider.publicConfigStore._state){
+        window.alert("Please enable XDCPay")
+      }
+
+      if(!window.web3.currentProvider.selectedAddress){
+        window.alert("Please login to your XDCPay wallet to proceed")
+      }
+
+      const state = window.web3.givenProvider.publicConfigStore._state;
+
+      window.web3.currentProvider = window.web3.givenProvider;
+      window.ethereum = window.web3.givenProvider;
       window.ethereum.selectedAddress = state.selectedAddress;
-      window.ethereum._metamask = null;
-      window.ethereum.chainId = null;
-      console.log("window.ethereum =========", window.ethereum);
-      console.log("window.web3 =========", window.web3);
-      console.log("window.web3.eth =========", window.web3.eth);
-
-
 
       window.ethereum.enable().then(add => {
-        console.log('window.ethereum ====-------======-----', window.ethereum);
-        window.web3.currentProvider.selectedAddress = state.selectedAddress
-        //   if (networkType != 'main') {
+        window.web3.currentProvider.selectedAddress = add[0]
+        getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
 
-        // getPaymentToken(window.web3.currentProvider.selectedAddress, "private");
-        // } else {
-        //   getPaymentToken(window.web3.currentProvider.selectedAddress);
-        // }
       });
 
 
@@ -321,6 +306,7 @@
 
     const priceUsd = 1;
     const priceXdc = 1;
+
     var transaction = {
       "from": window.web3.currentProvider.selectedAddress,
       "to": "0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2",
@@ -337,7 +323,7 @@
         console.log("Failed");
       } else {
         window.web3.eth.net.getId().then(netId => {
-          console.log("networkType ==========", netId);
+          // console.log("networkType ==========", netId);
           if(netId === 50){
             console.log("MAINNET");
             networkType = "Mainnet";
